@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    /* 📁 Estructura de carpetas */
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    /* 🧠 Entorno de ejecución */
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ES2020"],
+    "types": ["node", "express"],
+
+    /* ⚙️ Soporte y tipado */
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+
+    /* 🧾 Mapas y declaraciones */
+    "sourceMap": true,
+    "declaration": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

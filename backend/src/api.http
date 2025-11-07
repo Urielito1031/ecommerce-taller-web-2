@@ -1,0 +1,21 @@
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+   "firstName": "Eduardo",
+    "lastName": "Cruz",
+    "address": "Culpina 394",
+    "email": "megadou@gmail.com",
+    "password": "quemirasbobo"
+}
+###
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "megadou@gmail.com",
+    "password": "quemirasbobo"
+}
+
+###
+GET http://localhost:4000/api/users

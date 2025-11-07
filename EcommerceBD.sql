@@ -1,0 +1,3 @@
+CREATE DATABASE Ecommerce;
+
+SELECT * FROM [User];
