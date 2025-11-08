@@ -1,49 +1,52 @@
-import { ItemCarrito } from "@prisma/client";
 import { prisma } from "../config/prisma";
+import { Prisma } from "@prisma/client";
 
-export class CarritoRepository{
-   async agregarProducto(usuarioId:number,productoId:number,cantidad:number):Promise<ItemCarrito>{
-      const carrito = await prisma.carrito.upsert({
+export class CarritoRepository {
+  async agregarProducto(usuarioId: number, productoId: number, cantidad: number) {
+    const carrito = await prisma.carrito.upsert({
       where: { usuarioId },
       update: {},
       create: { usuarioId },
     });
-      const itemExistente = await prisma.itemCarrito.findFirst({
-      where: { carritoId: carrito.id, productoId: productoId },
+
+    const itemExistente = await prisma.itemCarrito.findFirst({
+      where: { carritoId: carrito.id, productoId },
     });
-    if(itemExistente){
+
+    if (itemExistente) {
       return prisma.itemCarrito.update({
         where: { id: itemExistente.id },
         data: { cantidad: itemExistente.cantidad + cantidad },
+      include: { producto: true },  
       });
     }
-    return prisma.itemCarrito.create({
-      data: {
-         carritoId: carrito.id, 
-         productoId: productoId,
-         cantidad : cantidad
-      }
-    })
-   }
-   async obtenerCarritoPorUsuario(usuarioId: number):Promise<ItemCarrito[] | null>{
-      const carrito =  await prisma.carrito.findUnique({
-         where: { usuarioId },
-         include: { items: true },
-      });
-      if(!carrito){
-         return null;
-      }
-      return carrito.items;
-   }
 
-   async limpiarCarrito(usuarioId:number):Promise<void>{
-      const carrito = await prisma.carrito.findUnique({
-         where: { usuarioId },
-      });
-      if(carrito){
-         await prisma.itemCarrito.deleteMany({
-            where: { carritoId: carrito.id }
-         });   
-      }
-   }
+    return prisma.itemCarrito.create({
+      data: { carritoId: carrito.id, productoId, cantidad },
+      include: { producto: true },
+    });
+  }
+
+  async obtenerCarritoPorUsuario(usuarioId: number) {
+    return  await prisma.carrito.findUnique({
+      where: { usuarioId },
+      include: {
+        items: {
+          include: {
+            producto: true,
+          },
+        },
+      },
+    });
+  }
+
+  async limpiarCarrito(usuarioId: number): Promise<void> {
+    const carrito = await prisma.carrito.findUnique({ where: { usuarioId } });
+
+    if (carrito) {
+      await prisma.itemCarrito.deleteMany({ where: { carritoId: carrito.id } });
+    }
+  }
 }
+
+export const carritoRepository = new CarritoRepository();

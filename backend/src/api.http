@@ -35,3 +35,12 @@ Content-Type: application/json
 
 ###
 GET http://localhost:4000/api/producto/45
+
+###
+POST http://localhost:4000/api/carrito/agregar/1
+Content-Type: application/json
+
+{
+    "productoId": 2,
+    "cantidad": 2
+}
