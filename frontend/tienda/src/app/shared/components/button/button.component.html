@@ -1,0 +1,16 @@
+<button
+  type="button"
+  class="btn"
+  [ngClass]="[
+    'btn-' + variant,
+    size === 'sm' ? 'btn-sm' : '',
+    size === 'lg' ? 'btn-lg' : ''
+  ]"
+  [disabled]="disabled"
+  (click)="onClick()"
+>
+  @if (icon) {
+    <i class="bi me-2" [ngClass]="icon"></i>
+  }
+  {{ label }}
+</button>

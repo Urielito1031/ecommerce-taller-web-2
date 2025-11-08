@@ -1,0 +1,105 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-body">
+          <h1 class="card-title text-center mb-4">{{ authTitle }}</h1>
+          @if(serverError){
+            <div class="bg-danger text-white rounded px-3 py-2 mb-3 small">{{ serverError }}</div>
+          }
+
+          <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+
+            @if (isRegisterMode) {
+              <div class="mb-3">
+                <label for="firstName" class="form-label">Nombre:</label>
+                <input
+                  type="text"
+                  formControlName="firstName"
+                  id="firstName"
+                  class="form-control"
+                  [class.is-invalid]="getError('firstName')"
+                  placeholder="Ingresa tu nombre"
+                />
+                @if (getError('firstName')) {
+                  <div class="invalid-feedback d-block">{{ getError('firstName') }}</div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Apellido:</label>
+                <input
+                  type="text"
+                  formControlName="lastName"
+                  id="lastName"
+                  class="form-control"
+                  [class.is-invalid]="getError('lastName')"
+                  placeholder="Ingresa tu apellido"
+                />
+                @if (getError('lastName')) {
+                  <div class="invalid-feedback d-block">{{ getError('lastName') }}</div>
+                }
+              </div>
+            }
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo electrónico:</label>
+              <input
+                type="email"
+                formControlName="email"
+                id="email"
+                class="form-control"
+                [class.is-invalid]="getError('email')"
+                placeholder="ejemplo@correo.com"
+              />
+              @if (getError('email')) {
+                <div class="invalid-feedback d-block">{{ getError('email') }}</div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña:</label>
+              <input
+                type="password"
+                formControlName="password"
+                id="password"
+                class="form-control"
+                [class.is-invalid]="getError('password')"
+                placeholder="Ingresa tu contraseña"
+              />
+              @if (getError('password')) {
+                <div class="invalid-feedback d-block">{{ getError('password') }}</div>
+              }
+            </div>
+
+            @if (isRegisterMode) {
+              <div class="mb-3">
+                <label for="address" class="form-label">Dirección:</label>
+                <input
+                  type="text"
+                  formControlName="address"
+                  id="address"
+                  class="form-control"
+                  [class.is-invalid]="getError('address')"
+                  placeholder="Ingresa tu dirección"
+                />
+                @if (getError('address')) {
+                  <div class="invalid-feedback d-block">{{ getError('address') }}</div>
+                }
+              </div>
+            }
+
+            <div class="d-grid">
+              <button
+                type="submit"
+                class="btn btn-primary"
+              >
+                {{ submitButtonText }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

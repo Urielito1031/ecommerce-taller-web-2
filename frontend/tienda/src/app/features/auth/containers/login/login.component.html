@@ -1,0 +1,7 @@
+<app-auth-form 
+	[authTitle]="authTitle"
+	[submitButtonText]="submitButtonText"
+	[isRegisterMode]="isRegisterMode"
+	[serverError]="serverError()"
+	(formSubmit)="onLoginSubmit($event)"
+></app-auth-form>
