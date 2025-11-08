@@ -20,4 +20,34 @@ model User {
   address   String
   email     String  @unique
   password  String
+  carrito   Carrito?
+}
+model Producto {
+  id          Int        @id @default(autoincrement()) 
+  nombre      String                                     
+  descripcion String                                   
+  categoria   String                                     
+  precio      Float  
+  imagenUrl   String  
+  stock       Int        @default(1)                                 
+  itemsCarrito ItemCarrito[]                           
+  creadoEn    DateTime   @default(now())               
+}
+
+model Carrito {
+  id        Int         @id @default(autoincrement()) 
+  usuario   User     @relation(fields: [usuarioId], references: [id])
+  usuarioId Int         @unique                      
+  items     ItemCarrito[]                            
+  creadoEn  DateTime    @default(now())              
+}
+
+
+model ItemCarrito {
+  id         Int       @id @default(autoincrement()) 
+  carrito    Carrito   @relation(fields: [carritoId], references: [id])
+  carritoId  Int                                       
+  producto   Producto  @relation(fields: [productoId], references: [id])
+  productoId Int                                       
+  cantidad   Int       @default(1)                    
 }

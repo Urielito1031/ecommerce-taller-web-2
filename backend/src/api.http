@@ -2,20 +2,36 @@ POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
-   "firstName": "Eduardo",
-    "lastName": "Cruz",
-    "address": "Culpina 394",
-    "email": "megadou@gmail.com",
-    "password": "quemirasbobo"
+   "firstName": "Uadf",
+    "lastName": "xdasdf",
+    "address": "Siempre viva 394",
+    "email": "lol@gmail.com",
+    "password": "asdfasdf"
 }
 ###
 POST http://localhost:4000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "megadou@gmail.com",
-    "password": "quemirasbobo"
+    "email": "measdfasdfasu@gmail.com",
+    "password": "sdf"
 }
 
 ###
 GET http://localhost:4000/api/users
+
+###
+POST http://localhost:4000/api/producto/crear
+Content-Type: application/json
+
+{
+    "nombre": "Producto 1",
+    "descripcion": "Descripción del producto 1",
+    "categoria": "Categoría 1",
+    "precio": 100,
+    "imagenUrl": "http://example.com/producto1.jpg",
+    "stock": 10
+}
+
+###
+GET http://localhost:4000/api/producto
