@@ -8,5 +8,8 @@ router.post(
   '/agregar/:usuarioId',
   carritoController.agregarProducto
 );
+router.get(
+  '/:usuarioId',
+  carritoController.obtenerCarritoPorUsuario)
 
 export default router;

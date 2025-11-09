@@ -1,8 +1,10 @@
 import { prisma } from "../config/prisma";
 import { Prisma } from "@prisma/client";
 
+
 export class CarritoRepository {
-  async agregarProducto(usuarioId: number, productoId: number, cantidad: number) {
+   
+   async agregarProducto(usuarioId: number, productoId: number, cantidad: number):Promise<ItemCarritoConProducto> {
     const carrito = await prisma.carrito.upsert({
       where: { usuarioId },
       update: {},
@@ -27,8 +29,8 @@ export class CarritoRepository {
     });
   }
 
-  async obtenerCarritoPorUsuario(usuarioId: number) {
-    return  await prisma.carrito.findUnique({
+  async obtenerCarritoPorUsuario(usuarioId: number): Promise<CarritoConItemsYProductos | null> {
+   const carrito = await  prisma.carrito.findUnique({
       where: { usuarioId },
       include: {
         items: {
@@ -38,6 +40,7 @@ export class CarritoRepository {
         },
       },
     });
+    return carrito;
   }
 
   async limpiarCarrito(usuarioId: number): Promise<void> {
@@ -48,5 +51,18 @@ export class CarritoRepository {
     }
   }
 }
+//declaramos el type con los includes que retorna el repositorio, para que sea tipado
+export type ItemCarritoConProducto = Prisma.ItemCarritoGetPayload<{
+  include: { producto: true }
+}>;
 
+export type CarritoConItemsYProductos = Prisma.CarritoGetPayload<{
+  include: {
+    items: {
+      include: {
+        producto: true
+      }
+    }
+  }
+}>;
 export const carritoRepository = new CarritoRepository();
