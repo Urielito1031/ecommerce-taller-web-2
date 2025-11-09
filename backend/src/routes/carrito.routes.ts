@@ -1,15 +1,20 @@
-import { Router } from 'express';
-import {carritoController}  from '../controllers/carrito.controller';
-import { } from '../middlewares/producto.middleware';
+import { Router } from "express";
+import { carritoController } from "../controllers/carrito.controller";
+import { agregarAlCarritoRules, validateCarrito } from "../middlewares/carrito.middleware";
 
 const router = Router();
 
 router.post(
-  '/agregar/:usuarioId',
+  "/agregar/:usuarioId",
+  agregarAlCarritoRules,
+  validateCarrito,
   carritoController.agregarProducto
 );
+
 router.get(
-  '/:usuarioId',
-  carritoController.obtenerCarritoPorUsuario)
+  "/:usuarioId",
+
+  carritoController.obtenerCarritoPorUsuario
+);
 
 export default router;
