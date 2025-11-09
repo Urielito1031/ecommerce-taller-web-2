@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import { carritoService } from "../services/carrito.service";
 import { productoRepository } from "../repositories/producto.repository";
-import { carritoRepository } from "../repositories/carrito.repository";
+import { carritoRepository, ItemCarritoConProducto } from "../repositories/carrito.repository";
+import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
+import { prisma } from "../config/prisma";
 
 export class CarritoController {
   async agregarProducto(req: Request, res: Response): Promise<void> {
@@ -29,7 +31,7 @@ export class CarritoController {
       return;
     }
 
-    const itemCarrito = await carritoService.agregarProducto(usuarioId, productoId, cantidad);
+    const itemCarrito:ItemCarritoDto = await carritoService.agregarProducto(usuarioId, productoId, cantidad);
     res.status(201).json(itemCarrito);
   }
 
@@ -43,6 +45,29 @@ export class CarritoController {
     }
 
     res.status(200).json(carrito);
+  }
+  async limpiarCarrito(req: Request, res: Response): Promise<void> {
+      const usuarioId = Number(req.params.usuarioId);
+      await carritoService.limpiarCarrito(usuarioId);
+      res.status(200).json({ message: "Carrito limpiado exitosamente" });
+  }
+   async eliminarProductoEnCarrito(req: Request, res: Response): Promise<void> {
+      const usuarioId = Number(req.params.usuarioId);
+      const productoId = Number(req.params.productoId);
+
+      const carrito = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+      if (!carrito) {
+          res.status(404).json({ message: "Carrito no encontrado" });
+          return;
+      }
+      const item: ItemCarritoConProducto | null = await carritoRepository.obtenerItemDelCarrito(usuarioId, productoId);
+      if (!item) {
+          res.status(404).json({ message: "Producto no estaba en el carrito" });
+          return;
+      }
+      await carritoService.eliminarProducto(usuarioId, productoId);
+    
+      res.status(200).json({ message: "Producto eliminado del carrito exitosamente" });
   }
 }
 

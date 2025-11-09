@@ -16,5 +16,9 @@ router.get(
 
   carritoController.obtenerCarritoPorUsuario
 );
+router.delete(
+   "/:usuarioId/item/:productoId",
+   carritoController.eliminarProductoEnCarrito
+)
 
 export default router;

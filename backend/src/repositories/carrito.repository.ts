@@ -1,5 +1,5 @@
 import { prisma } from "../config/prisma";
-import { Prisma } from "@prisma/client";
+import { Prisma, Producto } from "@prisma/client";
 
 export type ItemCarritoConProducto = Prisma.ItemCarritoGetPayload<{
   include: { producto: true }
@@ -16,6 +16,24 @@ export type CarritoConItemsYProductos = Prisma.CarritoGetPayload<{
 }>;
 
 export class CarritoRepository {
+
+   
+  async obtenerItemDelCarrito(usuarioId: number, productoId: number): Promise<ItemCarritoConProducto | null> {
+  const carrito = await prisma.carrito.findUnique({
+    where: { usuarioId },
+  });
+
+  if (!carrito) {
+    return null;
+  }
+
+  const item = await prisma.itemCarrito.findFirst({
+    where: { carritoId: carrito.id, productoId },
+    include: { producto: true },
+  });
+
+  return item;
+}
   async agregarProducto(
     usuarioId: number,
     productoId: number,
@@ -58,6 +76,18 @@ export class CarritoRepository {
         },
       },
     });
+  }
+
+  async eliminarProducto(usuarioId: number, productoId: number): Promise<void> {
+      const carrito = await prisma.carrito.findUnique({
+         where: { usuarioId },
+      });
+
+      if (carrito) {
+         await prisma.itemCarrito.deleteMany({
+            where: { carritoId: carrito.id, productoId },
+         });
+      }
   }
 
   async limpiarCarrito(usuarioId: number): Promise<void> {
