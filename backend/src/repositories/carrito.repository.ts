@@ -17,7 +17,7 @@ export type CarritoConItemsYProductos = Prisma.CarritoGetPayload<{
 
 export class CarritoRepository {
 
-   
+
   async obtenerItemDelCarrito(usuarioId: number, productoId: number): Promise<ItemCarritoConProducto | null> {
   const carrito = await prisma.carrito.findUnique({
     where: { usuarioId },
