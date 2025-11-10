@@ -25,16 +25,19 @@ POST http://localhost:4000/api/producto/crear
 Content-Type: application/json
 
 {
-    "nombre": "Producto 1",
-    "descripcion": "Descripción del producto 1",
-    "categoria": "Categoría 1",
-    "precio": 100,
+    "nombre": "Producto almohada",
+    "descripcion": "asdfasfasdfasdfasfasdfasd",
+    "categoria": "asdfasfasd",
+    "precio": 500,
     "imagenUrl": "http://example.com/producto1.jpg",
-    "stock": 10
+    "stock": 1
 }
 
 ###
-GET http://localhost:4000/api/producto/45
+GET http://localhost:4000/api/producto
+
+###
+GET http://localhost:4000/api/producto/1
 
 ###
 POST http://localhost:4000/api/carrito/agregar/1
@@ -44,3 +47,12 @@ Content-Type: application/json
     "productoId": 2,
     "cantidad": 2
 }
+
+###
+DELETE http://localhost:4000/api/carrito/5/item/1/cantidad/1
+
+1 - agregar filtros por nombre, clasificación y precio
+
+2 - guardar los filtros cada vez que cambia de pantalla  
+
+3 - cuando cierre sesión estos filtros deben limpiarse

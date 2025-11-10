@@ -34,6 +34,13 @@ export class CarritoService {
       items: carrito.items.map((item) => this.mapItemToDto(item)),
     };
   }
+
+  async eliminarCantidadDeUnProducto(usuarioId:number, productoId:number, cantidad:number):Promise<void>{
+      return carritoRepository.eliminarCantidadDeUnProducto(usuarioId, productoId, cantidad);
+  }
+
+
+
   async eliminarProducto(usuarioId:number, productoId:number):Promise<void>{
       return carritoRepository.eliminarProducto(usuarioId, productoId);
   }

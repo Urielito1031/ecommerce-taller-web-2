@@ -3,7 +3,6 @@ import { carritoService } from "../services/carrito.service";
 import { productoRepository } from "../repositories/producto.repository";
 import { carritoRepository, ItemCarritoConProducto } from "../repositories/carrito.repository";
 import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
-import { prisma } from "../config/prisma";
 
 export class CarritoController {
   async agregarProducto(req: Request, res: Response): Promise<void> {
@@ -33,6 +32,27 @@ export class CarritoController {
 
     const itemCarrito:ItemCarritoDto = await carritoService.agregarProducto(usuarioId, productoId, cantidad);
     res.status(201).json(itemCarrito);
+  }
+
+  async eliminarCantidadDeUnProducto(req: Request, res: Response): Promise<void> {
+      const usuarioId = Number(req.params.usuarioId);
+      const productoId = Number(req.params.productoId);
+      const cantidad = Number(req.params.cantidad);
+
+      const carrito = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+      if (!carrito) {
+        res.status(404).json({ message: "Carrito no encontrado" });
+        return;
+      }
+
+      const item = carrito.items.find(i => i.productoId === productoId);
+      if (!item) {
+        res.status(404).json({ message: "Producto no encontrado en el carrito" });
+        return;
+      }
+
+      await carritoService.eliminarCantidadDeUnProducto(usuarioId, productoId, cantidad);
+      res.status(200).json({ message: "Cantidad del producto actualizada en el carrito" });
   }
 
   async obtenerCarritoPorUsuario(req: Request, res: Response): Promise<void> {

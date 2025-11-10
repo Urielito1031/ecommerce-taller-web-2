@@ -78,6 +78,34 @@ export class CarritoRepository {
     });
   }
 
+  async eliminarCantidadDeUnProducto(usuarioId: number, productoId: number, cantidad: number): Promise<void> {
+      const carrito = await prisma.carrito.findUnique({ 
+         where: {usuarioId},
+         include: { items: { include: { producto: true } } }
+      });
+
+      if (!carrito) {
+         throw new Error("Carrito no encontrado");
+      }
+
+      const item = carrito.items.find(item => item.productoId === productoId);
+      if (!item) {
+         throw new Error("Producto no encontrado en el carrito");
+      }
+
+      const nuevaCantidad = item.cantidad - cantidad;
+      if (nuevaCantidad <= 0) {
+         await prisma.itemCarrito.delete({
+            where: { id: item.id }
+         });
+      } else {
+         await prisma.itemCarrito.update({
+            where: { id: item.id },
+            data: { cantidad: nuevaCantidad }
+         });
+      }
+  }
+
   async eliminarProducto(usuarioId: number, productoId: number): Promise<void> {
       const carrito = await prisma.carrito.findUnique({
          where: { usuarioId },

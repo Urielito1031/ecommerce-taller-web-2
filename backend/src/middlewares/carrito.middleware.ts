@@ -1,6 +1,18 @@
 import { body, param, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 
+export const eliminarProductoEnItemRules = [
+  param("usuarioId")
+    .notEmpty().withMessage("El usuarioId es obligatorio")
+    .isInt({ gt: 0 }).withMessage("usuarioId debe ser entero > 0"),
+  param("productoId")
+    .notEmpty().withMessage("El productoId es obligatorio")
+    .isInt({ gt: 0 }).withMessage("productoId debe ser entero > 0"),
+
+]
+
+
+
 export const agregarAlCarritoRules = [
   param("usuarioId")
     .notEmpty().withMessage("El usuarioId es obligatorio")
@@ -13,6 +25,9 @@ export const agregarAlCarritoRules = [
     .isInt({ gt: 0 }).withMessage("La cantidad debe ser un entero > 0"),
 ];
 
+
+
+
 export const validateCarrito = (req: Request, res: Response, next: NextFunction): void => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -24,3 +39,19 @@ export const validateCarrito = (req: Request, res: Response, next: NextFunction)
   }
   next();
 };
+
+export const eliminarCantidadRules = [
+  param("usuarioId")
+    .notEmpty().withMessage("El usuarioId es obligatorio")
+    .isInt({ gt: 0 }).withMessage("usuarioId debe ser entero > 0"),
+  param("productoId")
+    .notEmpty().withMessage("El productoId es obligatorio")
+    .isInt({ gt: 0 }).withMessage("productoId debe ser entero > 0"),
+  param("cantidad")
+    .notEmpty().withMessage("La cantidad es obligatoria")
+    .isInt({ gt: 0 }).withMessage("La cantidad debe ser un entero > 0"),
+];
+
+
+
+

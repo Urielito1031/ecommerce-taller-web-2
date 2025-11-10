@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { carritoController } from "../controllers/carrito.controller";
-import { agregarAlCarritoRules, validateCarrito } from "../middlewares/carrito.middleware";
+import { agregarAlCarritoRules, eliminarCantidadRules, eliminarProductoEnItemRules, validateCarrito } from "../middlewares/carrito.middleware";
 
 const router = Router();
 
@@ -18,7 +18,17 @@ router.get(
 );
 router.delete(
    "/:usuarioId/item/:productoId",
+   eliminarProductoEnItemRules,
+   validateCarrito,
    carritoController.eliminarProductoEnCarrito
 )
+
+router.delete(
+  "/:usuarioId/item/:productoId/cantidad/:cantidad",
+  eliminarCantidadRules,
+  validateCarrito,
+  carritoController.eliminarCantidadDeUnProducto
+)
+
 
 export default router;
