@@ -3,6 +3,7 @@ import { carritoService } from "../services/carrito.service";
 import { productoRepository } from "../repositories/producto.repository";
 import { carritoRepository, ItemCarritoConProducto } from "../repositories/carrito.repository";
 import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
+import { CarritoConItemsYTotalDto } from "../dtos/carrito/carritoConItemsYTotalDto";
 
 export class CarritoController {
   async agregarProducto(req: Request, res: Response): Promise<void> {
@@ -57,7 +58,7 @@ export class CarritoController {
 
   async obtenerCarritoPorUsuario(req: Request, res: Response): Promise<void> {
     const usuarioId = Number(req.params.usuarioId);
-    const carrito = await carritoService.obtenerCarritoPorUsuario(usuarioId);
+    const carrito:CarritoConItemsYTotalDto| null = await carritoService.obtenerCarritoPorUsuario(usuarioId);
 
     if (!carrito) {
       res.status(404).json({ message: "Carrito no encontrado" });

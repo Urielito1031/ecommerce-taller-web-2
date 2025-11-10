@@ -1,4 +1,4 @@
-import { CarritoDto } from "../dtos/carrito/carritoDto";
+import { CarritoConItemsYTotalDto } from "../dtos/carrito/carritoConItemsYTotalDto";
 import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
 import {
   CarritoConItemsYProductos,
@@ -21,17 +21,23 @@ export class CarritoService {
     return this.mapItemToDto(itemCarrito);
   }
 
-  async obtenerCarritoPorUsuario(usuarioId: number): Promise<CarritoDto | null> {
+  async obtenerCarritoPorUsuario(usuarioId: number): Promise<CarritoConItemsYTotalDto | null> {
     const carrito: CarritoConItemsYProductos | null =
       await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
 
     if (!carrito) {
       return null;
     }
+  
+    const itemsConTotal = carrito.items.map((item) => ({
+      ...this.mapItemToDto(item),
+      total: item.cantidad * item.producto.precio,
+    }));
 
     return {
       usuarioId: carrito.usuarioId,
-      items: carrito.items.map((item) => this.mapItemToDto(item)),
+      items: itemsConTotal,
+      total: itemsConTotal.reduce((acc, item) => acc + item.total, 0),
     };
   }
 
