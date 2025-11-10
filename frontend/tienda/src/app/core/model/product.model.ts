@@ -1,14 +1,15 @@
 export interface Product {
-    id:          number;
-    title:       string;
-    price:       number;
-    description: string;
-    category:    string;
-    image:       string;
-    rating:      Rating;
+    id: number;
+    nombre: string;
+    descripcion: string;
+    categoria: string;
+    precio: number;
+    imagenUrl: string;
+    stock: number;
 }
-
-export interface Rating {
-    rate:  number;
-    count: number;
+export interface ProductoConCantidad {
+  id: number;
+  productoId: number;
+  cantidad: number;
+  producto: Product;
 }

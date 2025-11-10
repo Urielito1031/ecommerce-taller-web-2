@@ -22,9 +22,9 @@
 
         <a routerLink="/cart" class="position-relative text-decoration-none text-dark">
           <i class="bi bi-cart fs-4"></i>
-          @if (cartService.totalItems() > 0) {
+          @if (totalItems() > 0) {
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {{ cartService.totalItems() }}
+              {{ totalItems() }}
             </span>
           }
         </a>

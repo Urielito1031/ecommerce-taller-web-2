@@ -8,18 +8,17 @@ import { ApiService } from '../../core/services/api.service';
   providedIn: 'root'
 })
 
-export class ProductService extends ApiService{
-
+export class ProductService extends ApiService {
   constructor(){
     super();
-    this.baseUrl = environment.apiProductUrl;
+    this.baseUrl = environment.apiNodeBaseUrl;
   }
-  
 
   getProducts(): Observable<Product[]> {
-    return this.get<Product[]>('products');
+    return this.get<Product[]>('producto');
   }
-  getProductById(id:number):Observable<Product>{
-    return this.get<Product>(`products/${id}`);
+
+  getProductById(id:number): Observable<Product> {
+    return this.get<Product>(`producto/${id}`);
   }
 }

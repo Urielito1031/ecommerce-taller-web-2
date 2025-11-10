@@ -5,7 +5,8 @@
         <div class="col-6 col-md-4 col-lg-3">
           <app-product-detail
             [product]="product"
-            (addToCart)="addToCart($event)">
+            (addToCart)="addToCart(product,1)" 
+            >
           </app-product-detail>
         </div>
       }

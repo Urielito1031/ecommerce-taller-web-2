@@ -1,4 +1,4 @@
-import { Cart } from "./cart.model";
+import { Carrito } from "./carrito.model";
 
 export interface User {
   id: number;
@@ -7,7 +7,7 @@ export interface User {
   email: string;
   password: string;
   address: string;
-  cart?: Cart;
+  cart?: Carrito;
 }
 
 export interface SessionUser {
