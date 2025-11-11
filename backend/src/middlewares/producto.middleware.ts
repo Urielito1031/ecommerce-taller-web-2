@@ -10,8 +10,9 @@ export const productoValidationRules = [
     .notEmpty().withMessage('La descripción es obligatoria')
     .isLength({ min: 10 }).withMessage('La descripción debe tener al menos 10 caracteres'),
 
-  body('categoria')
-    .notEmpty().withMessage('La categoría es obligatoria'),
+  body('categoriaId')
+    .notEmpty().withMessage('El ID de categoría es obligatorio')
+    .isInt({ gt: 0 }).withMessage('El ID de categoría debe ser un número entero mayor a 0'),
 
   body('precio')
     .notEmpty().withMessage('El precio es obligatorio')

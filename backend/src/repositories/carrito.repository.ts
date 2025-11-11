@@ -1,39 +1,30 @@
 import { prisma } from "../config/prisma";
-import { Prisma, Producto } from "@prisma/client";
-
-export type ItemCarritoConProducto = Prisma.ItemCarritoGetPayload<{
-  include: { producto: true }
-}>;
-
-export type CarritoConItemsYProductos = Prisma.CarritoGetPayload<{
-  include: {
-    items: {
-      include: {
-        producto: true
-      }
-    }
-  }
-}>;
+import { ItemCarritoConProducto, CarritoConItemsYProductos } from "../types/prisma-types";
 
 export class CarritoRepository {
-
-
   async obtenerItemDelCarrito(usuarioId: number, productoId: number): Promise<ItemCarritoConProducto | null> {
-  const carrito = await prisma.carrito.findUnique({
-    where: { usuarioId },
-  });
+    const carrito = await prisma.carrito.findUnique({
+      where: { usuarioId },
+    });
 
-  if (!carrito) {
-    return null;
+    if (!carrito) {
+      return null;
+    }
+
+    const item = await prisma.itemCarrito.findFirst({
+      where: { carritoId: carrito.id, productoId },
+      include: {
+        producto: {
+          include: {
+            categoria: true
+          }
+        }
+      },
+    });
+
+    return item;
   }
 
-  const item = await prisma.itemCarrito.findFirst({
-    where: { carritoId: carrito.id, productoId },
-    include: { producto: true },
-  });
-
-  return item;
-}
   async agregarProducto(
     usuarioId: number,
     productoId: number,
@@ -45,24 +36,28 @@ export class CarritoRepository {
       create: { usuarioId },
     });
 
-   
     return prisma.itemCarrito.upsert({
       where: {
-        //con @@unique se puee hacer en prima la sintaxis carritoId_productoId
         carritoId_productoId: {
           carritoId: carrito.id,
           productoId: productoId,
         },
       },
       update: {
-        cantidad: { increment: cantidad }, 
+        cantidad: { increment: cantidad },
       },
       create: {
         carritoId: carrito.id,
         productoId: productoId,
-        cantidad: cantidad, 
+        cantidad: cantidad,
       },
-      include: { producto: true },
+      include: {
+        producto: {
+          include: {
+            categoria: true
+          }
+        }
+      },
     });
   }
 
@@ -74,7 +69,11 @@ export class CarritoRepository {
       include: {
         items: {
           include: {
-            producto: true,
+            producto: {
+              include: {
+                categoria: true
+              }
+            },
           },
         },
       },
@@ -82,43 +81,53 @@ export class CarritoRepository {
   }
 
   async eliminarCantidadDeUnProducto(usuarioId: number, productoId: number, cantidad: number): Promise<void> {
-      const carrito = await prisma.carrito.findUnique({ 
-         where: {usuarioId},
-         include: { items: { include: { producto: true } } }
+    const carrito = await prisma.carrito.findUnique({
+      where: { usuarioId },
+      include: {
+        items: {
+          include: {
+            producto: {
+              include: {
+                categoria: true
+              }
+            }
+          }
+        }
+      }
+    });
+
+    if (!carrito) {
+      throw new Error("Carrito no encontrado");
+    }
+
+    const item = carrito.items.find(item => item.productoId === productoId);
+    if (!item) {
+      throw new Error("Producto no encontrado en el carrito");
+    }
+
+    const nuevaCantidad = item.cantidad - cantidad;
+    if (nuevaCantidad <= 0) {
+      await prisma.itemCarrito.delete({
+        where: { id: item.id }
       });
-
-      if (!carrito) {
-         throw new Error("Carrito no encontrado");
-      }
-
-      const item = carrito.items.find(item => item.productoId === productoId);
-      if (!item) {
-         throw new Error("Producto no encontrado en el carrito");
-      }
-
-      const nuevaCantidad = item.cantidad - cantidad;
-      if (nuevaCantidad <= 0) {
-         await prisma.itemCarrito.delete({
-            where: { id: item.id }
-         });
-      } else {
-         await prisma.itemCarrito.update({
-            where: { id: item.id },
-            data: { cantidad: nuevaCantidad }
-         });
-      }
+    } else {
+      await prisma.itemCarrito.update({
+        where: { id: item.id },
+        data: { cantidad: nuevaCantidad }
+      });
+    }
   }
 
   async eliminarProducto(usuarioId: number, productoId: number): Promise<void> {
-      const carrito = await prisma.carrito.findUnique({
-         where: { usuarioId },
-      });
+    const carrito = await prisma.carrito.findUnique({
+      where: { usuarioId },
+    });
 
-      if (carrito) {
-         await prisma.itemCarrito.deleteMany({
-            where: { carritoId: carrito.id, productoId },
-         });
-      }
+    if (carrito) {
+      await prisma.itemCarrito.deleteMany({
+        where: { carritoId: carrito.id, productoId },
+      });
+    }
   }
 
   async limpiarCarrito(usuarioId: number): Promise<void> {

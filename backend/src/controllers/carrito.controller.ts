@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { carritoService } from "../services/carrito.service";
 import { productoRepository } from "../repositories/producto.repository";
-import { carritoRepository, ItemCarritoConProducto } from "../repositories/carrito.repository";
+import { carritoRepository } from "../repositories/carrito.repository";
+import { ItemCarritoConProducto } from "../types/prisma-types";
 import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
 import { CarritoConItemsYTotalDto } from "../dtos/carrito/carritoConItemsYTotalDto";
 

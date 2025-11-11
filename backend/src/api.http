@@ -1,61 +1,69 @@
+### AUTH - Register
 POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
-   "firstName": "Uadf",
-    "lastName": "xdasdf",
-    "address": "Siempre viva 394",
-    "email": "lol@gmail.com",
-    "password": "asdfasdf"
+  "firstName": "Juan",
+  "lastName": "Pérez",
+  "address": "Av. Corrientes 1234",
+  "email": "juan.perez@example.com",
+  "password": "password123"
 }
-###
+
+### AUTH - Login
 POST http://localhost:4000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "measdfasdfasu@gmail.com",
-    "password": "sdf"
+  "email": "juan.perez@example.com",
+  "password": "password123"
 }
 
-###
+### USERS - Get all
 GET http://localhost:4000/api/users
 
-###
+### CATEGORÍAS - Get all
+GET http://localhost:4000/api/categorias
+
+### CATEGORÍAS - Get by ID (con productos)
+GET http://localhost:4000/api/categorias/1
+
+### PRODUCTOS - Get all
+GET http://localhost:4000/api/producto
+
+### PRODUCTOS - Filter by categoría
+GET http://localhost:4000/api/producto?categoriaId=1
+
+### PRODUCTOS - Get by ID
+GET http://localhost:4000/api/producto/1
+
+### PRODUCTOS - Create
 POST http://localhost:4000/api/producto/crear
 Content-Type: application/json
 
 {
-    "nombre": "Producto almohada",
-    "descripcion": "asdfasfasdfasdfasfasdfasd",
-    "categoria": "asdfasfasd",
-    "precio": 100,
-    "imagenUrl": "http://example.com/producto1.jpg",
-    "stock": 1000
+  "nombre": "iPhone 15 Pro Max",
+  "descripcion": "Smartphone de última generación con chip A17 Bionic",
+  "categoriaId": 1,
+  "precio": 1299.99,
+  "imagenUrl": "https://example.com/iphone15.jpg",
+  "stock": 25
 }
 
-###
-GET http://localhost:4000/api/producto
+### CARRITO - Get by userId
+GET http://localhost:4000/api/carrito/1
 
-###
-GET http://localhost:4000/api/producto/1
-
-###
-GET http://localhost:4000/api/carrito/4
-
-###
-POST http://localhost:4000/api/carrito/agregar/3
+### CARRITO - Add product
+POST http://localhost:4000/api/carrito/agregar/1
 Content-Type: application/json
 
 {
-    "productoId": 89,
-    "cantidad":500
+  "productoId": 1,
+  "cantidad": 2
 }
 
-###
-DELETE http://localhost:4000/api/carrito/5/item/1/cantidad/1
+### CARRITO - Remove quantity
+DELETE http://localhost:4000/api/carrito/1/item/1/cantidad/1
 
-1 - agregar filtros por nombre, clasificación y precio
-
-2 - guardar los filtros cada vez que cambia de pantalla  
-
-3 - cuando cierre sesión estos filtros deben limpiarse
+### CARRITO - Remove product
+DELETE http://localhost:4000/api/carrito/1/item/1

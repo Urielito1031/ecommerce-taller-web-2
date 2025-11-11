@@ -1,10 +1,8 @@
 import { CarritoConItemsYTotalDto } from "../dtos/carrito/carritoConItemsYTotalDto";
 import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
-import {
-  CarritoConItemsYProductos,
-  carritoRepository,
-  ItemCarritoConProducto,
-} from "../repositories/carrito.repository";
+import { carritoRepository } from "../repositories/carrito.repository";
+import { ItemCarritoConProducto, CarritoConItemsYProductos } from "../types/prisma-types";
+import { ProductoDto } from "../dtos/product/productoDto";
 
 export class CarritoService {
   async agregarProducto(
@@ -22,13 +20,12 @@ export class CarritoService {
   }
 
   async obtenerCarritoPorUsuario(usuarioId: number): Promise<CarritoConItemsYTotalDto | null> {
-    const carrito: CarritoConItemsYProductos | null =
-      await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+    const carrito = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
 
     if (!carrito) {
       return null;
     }
-  
+
     const itemsConTotal = carrito.items.map((item) => ({
       ...this.mapItemToDto(item),
       total: item.cantidad * item.producto.precio,
@@ -41,34 +38,41 @@ export class CarritoService {
     };
   }
 
-  async eliminarCantidadDeUnProducto(usuarioId:number, productoId:number, cantidad:number):Promise<void>{
-      return carritoRepository.eliminarCantidadDeUnProducto(usuarioId, productoId, cantidad);
+  async eliminarCantidadDeUnProducto(usuarioId: number, productoId: number, cantidad: number): Promise<void> {
+    return carritoRepository.eliminarCantidadDeUnProducto(usuarioId, productoId, cantidad);
   }
 
-
-
-  async eliminarProducto(usuarioId:number, productoId:number):Promise<void>{
-      return carritoRepository.eliminarProducto(usuarioId, productoId);
+  async eliminarProducto(usuarioId: number, productoId: number): Promise<void> {
+    return carritoRepository.eliminarProducto(usuarioId, productoId);
   }
 
   async limpiarCarrito(usuarioId: number): Promise<void> {
     return carritoRepository.limpiarCarrito(usuarioId);
   }
 
+  // MAPPER: Prisma Entity → DTO
   private mapItemToDto(item: ItemCarritoConProducto): ItemCarritoDto {
     return {
       id: item.id,
       productoId: item.productoId,
       cantidad: item.cantidad,
-      producto: {
-        id: item.producto.id,
-        nombre: item.producto.nombre,
-        descripcion: item.producto.descripcion,
-        precio: item.producto.precio,
-        imagenUrl: item.producto.imagenUrl,
-        categoria: item.producto.categoria,
-        stock: item.producto.stock,
-      },
+      producto: this.mapProductoToDto(item.producto),
+    };
+  }
+
+  private mapProductoToDto(producto: any): ProductoDto {
+    return {
+      id: producto.id,
+      nombre: producto.nombre,
+      descripcion: producto.descripcion,
+      precio: producto.precio,
+      imagenUrl: producto.imagenUrl,
+      stock: producto.stock,
+      categoria: {
+        id: producto.categoria.id,
+        nombre: producto.categoria.nombre,
+        icono: producto.categoria.icono
+      }
     };
   }
 }

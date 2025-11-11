@@ -1,5 +1,4 @@
 <div class="card border-0 h-100 product-card">
-  <!-- Imagen -->
   <div class="position-relative overflow-hidden product-image-wrapper">
     
     <!-- ELIMINAR foto-remera.png cuando tengamos las imagenes de la base de datos -->
@@ -21,13 +20,12 @@
     }
   </div>
   
-  <!-- Cuerpo -->
   <div class="card-body d-flex flex-column p-4">
     <div class="flex-grow-1">
       <h5 class="card-title fw-bold mb-2 product-title">{{ product().nombre }}</h5>
       <p class="card-text text-muted mb-3 product-description">{{ product().descripcion }}</p>
 
-      <!-- Stock Status -->
+      <!-- ESTADOS SEGUN CANTIDAD DE STOCK -->
       <div class="stock-indicator mb-3">
         @if(sinStock()){
           <div class="stock-badge stock-out">
@@ -53,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Footer -->
     <div class="d-flex justify-content-between align-items-center pt-3 product-footer">
       <div class="price-tag">
         <span class="price-currency">$</span>
