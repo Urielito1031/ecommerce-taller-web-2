@@ -1,32 +1,69 @@
-<div class="card border-0 shadow-sm h-100 product-card">
+<div class="card border-0 h-100 product-card">
   <!-- Imagen -->
-  <div class="position-relative overflow-hidden rounded-top ratio ratio-1x1 bg-light">
+  <div class="position-relative overflow-hidden product-image-wrapper">
+    
+    <!-- ELIMINAR foto-remera.png cuando tengamos las imagenes de la base de datos -->
     <img
-      [src]="product().imagenUrl"
+    
+      [src]="product().imagenUrl || '/img/foto-remera.png'"
       [alt]="product().nombre"
-      class="card-img-top object-fit-cover transition"
+      class="card-img-top object-fit-cover product-img"
     />
+    @if (sinStock()) {
+      <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center stock-overlay-out">
+        <div class="text-center text-white px-3">
+          <div class="stock-icon-wrapper mb-3">
+            <i class="bi bi-slash-circle display-3"></i>
+          </div>
+          <h5 class="fw-bold mb-0 text-uppercase ls-1">Sin Stock</h5>
+        </div>
+      </div>
+    }
   </div>
-
+  
   <!-- Cuerpo -->
-  <div class="card-body d-flex flex-column justify-content-between">
-    <div>
-  <h6 class="card-title text-truncate fw-semibold mb-2">{{ product().nombre }}</h6>
-  <p class="card-text text-muted small text-truncate-2 mb-3">{{ product().descripcion }}</p>
-  <span class="badge rounded-pill"
-    [class.bg-success]="product().stock > 0"
-    [class.bg-danger]="product().stock === 0">
-    Stock: {{ product().stock }}
-  </span>
+  <div class="card-body d-flex flex-column p-4">
+    <div class="flex-grow-1">
+      <h5 class="card-title fw-bold mb-2 product-title">{{ product().nombre }}</h5>
+      <p class="card-text text-muted mb-3 product-description">{{ product().descripcion }}</p>
+
+      <!-- Stock Status -->
+      <div class="stock-indicator mb-3">
+        @if(sinStock()){
+          <div class="stock-badge stock-out">
+            <i class="bi bi-x-circle me-2"></i>
+            <span class="fw-semibold">Agotado</span>
+          </div>
+        }@else if(unaUnidad()){
+          <div class="stock-badge stock-last">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            <span class="fw-semibold">¡Última unidad!</span>
+          </div>
+        }@else if(pocasUnidades()){
+          <div class="stock-badge stock-low">
+            <i class="bi bi-dash-circle me-2"></i>
+            <span>Solo <strong>{{ stockDisponible() }}</strong> disponibles</span>
+          </div>
+        }@else {  
+          <div class="stock-badge stock-available">
+            <i class="bi bi-check-circle me-2"></i>
+            <span><strong>{{ stockDisponible() }}</strong> en stock</span>
+          </div>
+        }
+      </div>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mt-auto">
-      <strong class="text-primary fs-6">${{ product().precio }}</strong>
+    <!-- Footer -->
+    <div class="d-flex justify-content-between align-items-center pt-3 product-footer">
+      <div class="price-tag">
+        <span class="price-currency">$</span>
+        <span class="price-amount">{{ product().precio }}</span>
+      </div>
       <app-button
         label="Agregar"
         variant="warning"
         size="sm"
-        [disabled]="product().stock === 0"
+        [disabled]="sinStock()"
         (clicked)="onAddToCart()">
       </app-button>
     </div>
