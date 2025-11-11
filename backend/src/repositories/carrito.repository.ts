@@ -45,20 +45,23 @@ export class CarritoRepository {
       create: { usuarioId },
     });
 
-    const itemExistente = await prisma.itemCarrito.findFirst({
-      where: { carritoId: carrito.id, productoId },
-    });
-
-    if (itemExistente) {
-      return prisma.itemCarrito.update({
-        where: { id: itemExistente.id },
-        data: { cantidad: itemExistente.cantidad + cantidad },
-        include: { producto: true },
-      });
-    }
-
-    return prisma.itemCarrito.create({
-      data: { carritoId: carrito.id, productoId, cantidad },
+   
+    return prisma.itemCarrito.upsert({
+      where: {
+        //con @@unique se puee hacer en prima la sintaxis carritoId_productoId
+        carritoId_productoId: {
+          carritoId: carrito.id,
+          productoId: productoId,
+        },
+      },
+      update: {
+        cantidad: { increment: cantidad }, 
+      },
+      create: {
+        carritoId: carrito.id,
+        productoId: productoId,
+        cantidad: cantidad, 
+      },
       include: { producto: true },
     });
   }

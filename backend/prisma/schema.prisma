@@ -49,5 +49,6 @@ model ItemCarrito {
   carritoId  Int                                       
   producto   Producto  @relation(fields: [productoId], references: [id])
   productoId Int                                       
-  cantidad   Int       @default(1)                    
+  cantidad   Int       @default(1) 
+  @@unique([carritoId, productoId])                   
 }
