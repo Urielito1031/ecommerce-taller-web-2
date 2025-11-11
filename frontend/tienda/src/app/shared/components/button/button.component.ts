@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-button',
@@ -9,16 +9,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ButtonComponent {
   
-  @Input() label = 'Boton';
-  @Input() variant: 'primary' | 'secondary'|'success'| 'danger'| 'warning' = 'primary';
-  @Input() size: 'sm'|'md'| 'lg' = 'md';
-  @Input() icon?: string;
-  @Input() disabled = false;
+  label = input<string>('Boton');
+  variant = input<'primary' | 'secondary' | 'success' | 'danger' | 'warning'>('primary');
+  size = input<'sm' | 'md' | 'lg'>('md');
+  icon = input<string | undefined>(undefined);
+  disabled = input<boolean>(false);
    
-  @Output() clicked = new EventEmitter<void>();
+  clicked = output<void>();
 
   onClick(){
-    if(!this.disabled){
+    if(!this.disabled()){
       this.clicked.emit();
     }
   }

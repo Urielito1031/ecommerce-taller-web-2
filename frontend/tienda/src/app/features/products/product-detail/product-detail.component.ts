@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Product } from '../../../core/model/product.model';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { CommonModule } from '@angular/common';
@@ -11,11 +11,11 @@ import { CommonModule } from '@angular/common';
 })
 export class ProductDetailComponent {
 
-  @Input({ required: true }) product!: Product;
-  @Output() addToCart = new EventEmitter<Product>();
+  product = input.required<Product>();
+  addToCart = output<Product>();
 
   onAddToCart(){
-    this.addToCart.emit(this.product);
+    this.addToCart.emit(this.product());
   }
 
  

@@ -3,14 +3,14 @@
     <div class="col-md-6">
       <div class="card shadow">
         <div class="card-body">
-          <h1 class="card-title text-center mb-4">{{ authTitle }}</h1>
-          @if(serverError){
-            <div class="bg-danger text-white rounded px-3 py-2 mb-3 small">{{ serverError }}</div>
+          <h1 class="card-title text-center mb-4">{{ authTitle() }}</h1>
+          @if(serverError()){
+            <div class="bg-danger text-white rounded px-3 py-2 mb-3 small">{{ serverError() }}</div>
           }
 
           <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
 
-            @if (isRegisterMode) {
+            @if (isRegisterMode()) {
               <div class="mb-3">
                 <label for="firstName" class="form-label">Nombre:</label>
                 <input
@@ -72,7 +72,7 @@
               }
             </div>
 
-            @if (isRegisterMode) {
+            @if (isRegisterMode()) {
               <div class="mb-3">
                 <label for="address" class="form-label">Dirección:</label>
                 <input
@@ -94,7 +94,7 @@
                 type="submit"
                 class="btn btn-primary"
               >
-                {{ submitButtonText }}
+                {{ submitButtonText() }}
               </button>
             </div>
           </form>

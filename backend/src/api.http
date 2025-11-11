@@ -28,9 +28,9 @@ Content-Type: application/json
     "nombre": "Producto almohada",
     "descripcion": "asdfasfasdfasdfasfasdfasd",
     "categoria": "asdfasfasd",
-    "precio": 500,
+    "precio": 100,
     "imagenUrl": "http://example.com/producto1.jpg",
-    "stock": 1
+    "stock": 1000
 }
 
 ###
@@ -47,8 +47,8 @@ POST http://localhost:4000/api/carrito/agregar/3
 Content-Type: application/json
 
 {
-    "productoId": 2,
-    "cantidad": 2
+    "productoId": 89,
+    "cantidad":500
 }
 
 ###

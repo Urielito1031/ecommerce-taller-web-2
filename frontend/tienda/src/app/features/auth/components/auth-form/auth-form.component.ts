@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginCredentials, RegisterData } from '../../../../core/model/credentials.model';
 
@@ -10,22 +10,27 @@ import { LoginCredentials, RegisterData } from '../../../../core/model/credentia
   styleUrl: './auth-form.component.css'
 })
 export class AuthFormComponent {
-  @Input() isRegisterMode: boolean = false;
-  @Input() submitButtonText: string = 'Enviar';
-  @Input() authTitle: string = '';
-  @Input() serverError: string | null = null;
-  @Output() formSubmit = new EventEmitter<LoginCredentials | RegisterData>();
-  
+
+ 
+  public isRegisterMode = input<boolean>(false);
+  public submitButtonText = input<string>('Enviar');
+  public authTitle = input<string>('');
+  public serverError = input<string | null>(null);
+  public formSubmit = output<LoginCredentials | RegisterData>();
+
+
   private fb = inject(NonNullableFormBuilder);
   authForm!: FormGroup;
   
   ngOnInit(): void {
+        const isRegister = this.isRegisterMode(); 
+
     this.authForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      firstName: ['', this.isRegisterMode ? [Validators.required] : []],
-      lastName: ['', this.isRegisterMode ? [Validators.required] : []],
-      address: ['', this.isRegisterMode ? [Validators.required] : []],
+      firstName: ['', isRegister ? [Validators.required] : []],
+      lastName: ['', isRegister ? [Validators.required] : []],
+      address: ['', isRegister ? [Validators.required] : []],
     });
   }
   
@@ -37,7 +42,7 @@ export class AuthFormComponent {
 
     const formValue = this.authForm.value;
     
-    if (this.isRegisterMode) {
+    if (this.isRegisterMode()) {
       const data: RegisterData = {
         firstName: formValue.firstName,
         lastName: formValue.lastName,
