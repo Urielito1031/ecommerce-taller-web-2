@@ -44,53 +44,12 @@
       <!-- Items List -->
       <div class="col-lg-8 mb-4">
         @for (item of items(); track item.id) {
-          <div class="card mb-3 shadow-sm">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <!-- Product Image Placeholder -->
-                <div class="col-md-2 text-center mb-3 mb-md-0">
-                  <div class="bg-primary bg-gradient rounded d-flex align-items-center justify-content-center" 
-                       style="width: 80px; height: 80px; margin: 0 auto;">
-                    <i class="bi bi-box-seam text-white" style="font-size: 2rem;"></i>
-                  </div>
-                </div>
-
-                <!-- Product Details -->
-                <div class="col-md-5 mb-3 mb-md-0">
-                  <h5 class="card-title mb-2">{{ item.producto.nombre }}</h5>
-                  <p class="text-muted mb-1">
-                    <small>Precio unitario: <strong>${{ item.producto.precio }}</strong></small>
-                  </p>
-                </div>
-
-                <!-- Quantity Controls -->
-                <div class="col-md-3 mb-3 mb-md-0">
-                  <div class="input-group input-group-sm">
-                    <button class="btn btn-outline-secondary" type="button">
-                      <i class="bi bi-dash"></i>
-                    </button>
-                    <input type="text" 
-                           class="form-control text-center" 
-                           value="{{ item.cantidad }}" 
-                           readonly 
-                           style="max-width: 60px;">
-                    <button class="btn btn-outline-secondary" type="button">
-                      <i class="bi bi-plus"></i>
-                    </button>
-                  </div>
-                  <small class="text-muted d-block text-center mt-1">Cantidad</small>
-                </div>
-
-                <!-- Subtotal & Remove -->
-                <div class="col-md-2 text-md-end">
-                  <h5 class="text-success mb-2">${{ item.total }}</h5>
-                  <button class="btn btn-sm btn-outline-danger" type="button">
-                    <i class="bi bi-trash"></i> Eliminar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-cart-item 
+            [item]="item"
+            (incrementarCantidad)="incrementarCantidad($event)"
+            (decrementarCantidad)="decrementarCantidad($event)"
+            (eliminarItem)="eliminarItem($event)">
+          </app-cart-item>
         }
       </div>
 
