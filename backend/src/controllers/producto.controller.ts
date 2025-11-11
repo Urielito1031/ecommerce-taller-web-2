@@ -21,6 +21,7 @@ export class ProductoController {
 
   async getAll(req: Request, res: Response) {
     try {
+      // usa query param 'categoriaId' para filtrar por categoría
       const { categoriaId } = req.query;
       
       let productosDto;

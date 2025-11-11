@@ -26,13 +26,13 @@ GET http://localhost:4000/api/users
 GET http://localhost:4000/api/categorias
 
 ### CATEGORÍAS - Get by ID (con productos)
-GET http://localhost:4000/api/categorias/1
+GET http://localhost:4000/api/categorias/15
 
 ### PRODUCTOS - Get all
 GET http://localhost:4000/api/producto
 
 ### PRODUCTOS - Filter by categoría
-GET http://localhost:4000/api/producto?categoriaId=1
+GET http://localhost:4000/api/producto?categoriaId=15
 
 ### PRODUCTOS - Get by ID
 GET http://localhost:4000/api/producto/1
