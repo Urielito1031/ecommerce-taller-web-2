@@ -25,6 +25,17 @@ export const agregarAlCarritoRules = [
     .isInt({ gt: 0 }).withMessage("La cantidad debe ser un entero > 0"),
 ];
 
+export const actualizarCantidadRules = [
+  param("usuarioId")
+    .notEmpty().withMessage("El usuarioId es obligatorio")
+    .isInt({ gt: 0 }).withMessage("usuarioId debe ser entero > 0"),
+  param("productoId")
+    .notEmpty().withMessage("El productoId es obligatorio")
+    .isInt({ gt: 0 }).withMessage("productoId debe ser entero > 0"),
+  body("cantidad")
+    .notEmpty().withMessage("La cantidad es obligatoria")
+    .isInt({ gt: 0 }).withMessage("La cantidad debe ser un entero > 0"),
+];
 
 
 

@@ -3,7 +3,6 @@ import { carritoService } from "../services/carrito.service";
 import { productoRepository } from "../repositories/producto.repository";
 import { carritoRepository } from "../repositories/carrito.repository";
 import { ItemCarritoConProducto } from "../types/prisma-types";
-import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
 import { CarritoConItemsYTotalDto } from "../dtos/carrito/carritoConItemsYTotalDto";
 
 export class CarritoController {
@@ -32,9 +31,38 @@ export class CarritoController {
       return;
     }
 
-    const itemCarrito:ItemCarritoDto = await carritoService.agregarProducto(usuarioId, productoId, cantidad);
+    const itemCarrito = await carritoService.agregarProducto(usuarioId, productoId, cantidad);
     res.status(201).json(itemCarrito);
   }
+
+  async actualizarCantidadDeUnProducto(req: Request, res: Response): Promise<void> {
+    try {
+      const usuarioId = Number(req.params.usuarioId);
+      const productoId = Number(req.params.productoId);
+      const { cantidad } = req.body;
+
+      const carritoActualizado = await carritoService.actualizarCantidadDeProducto(
+        usuarioId,
+        productoId,
+        cantidad
+      );
+
+      res.status(200).json(carritoActualizado);
+
+    } catch (error: any) {
+      console.error('Error actualizando cantidad:', error);
+      
+      if (error.message.includes('no encontrado') || error.message.includes('no existe')) {
+        res.status(404).json({ message: error.message });
+      } else if (error.message.includes('Stock insuficiente')) {
+        res.status(400).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: "Error al actualizar cantidad del producto" });
+      }
+    }
+  }
+
+
 
   async eliminarCantidadDeUnProducto(req: Request, res: Response): Promise<void> {
       const usuarioId = Number(req.params.usuarioId);

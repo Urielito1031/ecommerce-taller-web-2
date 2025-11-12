@@ -80,6 +80,42 @@ export class CarritoRepository {
     });
   }
 
+  async actualizarCantidadDeProducto(
+    usuarioId: number,
+    productoId: number,
+    nuevaCantidad: number
+  ): Promise<void> {
+    const carrito = await prisma.carrito.findUnique({
+      where: { usuarioId },
+    });
+
+    if (!carrito) {
+      throw new Error("Carrito no encontrado");
+    }
+
+    const item = await prisma.itemCarrito.findFirst({
+      where: { 
+        carritoId: carrito.id, 
+        productoId 
+      }
+    });
+
+    if (!item) {
+      throw new Error("Producto no encontrado en el carrito");
+    }
+
+    if (nuevaCantidad === 0) {
+      await prisma.itemCarrito.delete({
+        where: { id: item.id }
+      });
+    } else {
+      await prisma.itemCarrito.update({
+        where: { id: item.id },
+        data: { cantidad: nuevaCantidad }
+      });
+    }
+  }
+
   async eliminarCantidadDeUnProducto(usuarioId: number, productoId: number, cantidad: number): Promise<void> {
     const carrito = await prisma.carrito.findUnique({
       where: { usuarioId },

@@ -1,7 +1,8 @@
 import { CarritoConItemsYTotalDto } from "../dtos/carrito/carritoConItemsYTotalDto";
 import { ItemCarritoDto } from "../dtos/carrito/itemCarritoDto";
 import { carritoRepository } from "../repositories/carrito.repository";
-import { ItemCarritoConProducto, CarritoConItemsYProductos } from "../types/prisma-types";
+import { productoRepository } from "../repositories/producto.repository";
+import { ItemCarritoConProducto } from "../types/prisma-types";
 import { ProductoDto } from "../dtos/product/productoDto";
 
 export class CarritoService {
@@ -36,6 +37,40 @@ export class CarritoService {
       items: itemsConTotal,
       total: itemsConTotal.reduce((acc, item) => acc + item.total, 0),
     };
+  }
+
+  async actualizarCantidadDeProducto(
+    usuarioId: number,
+    productoId: number,
+    cantidad: number
+  ): Promise<CarritoConItemsYTotalDto> {
+    const carrito = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+    if (!carrito) {
+      throw new Error("Carrito no encontrado");
+    }
+
+    const item = carrito.items.find(i => i.productoId === productoId);
+    if (!item) {
+      throw new Error("Producto no encontrado en el carrito");
+    }
+
+    const producto = await productoRepository.getById(productoId);
+    if (!producto) {
+      throw new Error("El producto no existe");
+    }
+
+    if (cantidad > producto.stock) {
+      throw new Error(`Stock insuficiente. Solo hay ${producto.stock} unidades disponibles`);
+    }
+
+    await carritoRepository.actualizarCantidadDeProducto(usuarioId, productoId, cantidad);
+
+    const carritoActualizado = await this.obtenerCarritoPorUsuario(usuarioId);
+    if (!carritoActualizado) {
+      throw new Error("Error al obtener carrito actualizado");
+    }
+
+    return carritoActualizado;
   }
 
   async eliminarCantidadDeUnProducto(usuarioId: number, productoId: number, cantidad: number): Promise<void> {

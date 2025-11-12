@@ -1,9 +1,10 @@
+// frontend/tienda/src/app/features/auth/containers/login/login.component.ts
 import { Component, computed, inject } from '@angular/core';
-import { AuthFormComponent } from '../../components/auth-form/auth-form.component';
-import { AuthService } from '../../services/auth.service';
-import { LoginCredentials } from '../../../../core/model/credentials.model';
 import { Router } from '@angular/router';
+import { AuthFormComponent } from '../../components/auth-form/auth-form.component';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
+import { LoginCredentials } from '../../../../core/model/credentials.model';
+import { effect } from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -15,23 +16,24 @@ export class LoginComponent {
   authTitle = 'Login';
   submitButtonText = 'Iniciar Sesión';
   isRegisterMode = false;
-  private authState = inject(AuthStateService);
-  serverError = computed(() => this.authState.error());
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
-    // Limpiar error al entrar en la vista de login
+  private authState = inject(AuthStateService);
+  private router = inject(Router);
+
+  serverError = computed(() => this.authState.error());
+  loading = computed(() => this.authState.loading());
+
+  constructor() {
     this.authState.setError(null);
+
+    effect(() => {
+      if (this.authState.isAuthenticated()) {
+        this.router.navigate(['/home']);
+      }
+    });
   }
 
   onLoginSubmit(data: LoginCredentials) {
-    this.authService.login(data).subscribe({
-      next: () => {
-        this.router.navigate(['/home']);
-      }
-      // El error se maneja y muestra automáticamente por el estado
-    });
+    this.authState.login(data);
   }
 }

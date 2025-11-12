@@ -1,9 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+// frontend/tienda/src/app/features/auth/containers/register/register.component.ts
+import { Component, computed, inject, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthFormComponent } from '../../components/auth-form/auth-form.component';
-import { AuthService } from '../../services/auth.service';
-import { LoginCredentials, RegisterData } from '../../../../core/model/credentials.model';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
+import { LoginCredentials, RegisterData } from '../../../../core/model/credentials.model';
 
 @Component({
   selector: 'app-register',
@@ -16,26 +16,33 @@ export class RegisterComponent {
   submitButtonText = 'Crear Cuenta';
   isRegisterMode = true;
   authTitle = 'Registro';
-  private authState = inject(AuthStateService);
-  serverError = computed(() => this.authState.error());
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
-    // Limpiar error al entrar en la vista de registro
+  private authState = inject(AuthStateService);
+  private router = inject(Router);
+  
+  serverError = computed(() => this.authState.error());
+  loading = computed(() => this.authState.loading());
+  
+  private registroExitoso = false;
+
+  constructor() {
     this.authState.setError(null);
+
+    effect(() => {
+      const loading = this.authState.loading();
+      const error = this.authState.error();
+      
+      if (!loading && !error && this.registroExitoso) {
+        this.router.navigate(['/auth/login']);
+        this.registroExitoso = false; 
+      }
+    });
   }
 
   onSubmit(data: LoginCredentials | RegisterData): void {
     if ('firstName' in data) {
-      this.authService.register(data).subscribe({
-        next: () => {
-          this.authState.setError(null);
-          this.router.navigate(['/auth/login']);
-        }
-        // El error se maneja y muestra automáticamente por el estado
-      });
+      this.registroExitoso = true;
+      this.authState.register(data);
     }
   }
 }

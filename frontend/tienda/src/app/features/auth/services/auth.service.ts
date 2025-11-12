@@ -1,84 +1,36 @@
-import { Injectable } from '@angular/core';
+// frontend/tienda/src/app/features/auth/services/auth.service.ts
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
-import { catchError, Observable, tap, throwError } from 'rxjs';
-import { User, SessionUser } from '../../../core/model/user.model';
-import { AuthStateService } from '../../../core/services/auth.state.service';
 import { environment } from '../../../../environments/environment.development';
+import { User } from '../../../core/model/user.model';
 import { LoginCredentials, RegisterData } from '../../../core/model/credentials.model';
+import { AuthStateService } from '../../../core/services/auth.state.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends ApiService {
 
-  constructor(private authState: AuthStateService) {
+  private authService = inject(AuthStateService);
+
+  constructor() {
     super();
     this.baseUrl = environment.apiNodeBaseUrl + '/auth';
+    
+    this.authService.setAuthApi(this);
   }
 
   register(credentials: RegisterData): Observable<User> {
-    this.authState.setLoading(true);
-
-    return this.post<User>('register', credentials).pipe(
-      tap(() => {
-        this.authState.setLoading(false);
-      }),
-      catchError((err) => {
-        const errorMsg = err.error?.message || 'El registro falló';
-        this.authState.setError(errorMsg);
-        this.authState.setLoading(false);
-        return throwError(() => err);
-      })
-    );
+    return this.post<User>('register', credentials);
   }
 
   login(credentials: LoginCredentials): Observable<User> {
-    this.authState.setLoading(true);
-
-    return this.post<User>('login', credentials).pipe(
-      tap((responseUser) => {
-        const user: User = (responseUser as any)?.user ?? responseUser;
-        const sessionUser: SessionUser = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          address: user.address
-        };
-        
-        this.authState.setAuth(sessionUser, true);
-        this.authState.setLoading(false);
-      }),
-      catchError((err) => {
-        const errorMsg = err.error?.message || 'Login falló';
-        this.authState.setError(errorMsg);
-        this.authState.setLoading(false);
-        return throwError(() => err);
-      })
-    );
+    return this.post<User>('login', credentials);
   }
 
-  logout(): void {
-    this.authState.clearAuth();
-  }
-
+  //no existe todavia en el backend
   getProfile(): Observable<User> {
-    return this.get<User>('profile').pipe(
-      tap((user) => {
-        const sessionUser: SessionUser = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          address: user.address
-        };
-        this.authState.setAuth(sessionUser, true);
-      }),
-      catchError((err) => {
-        this.authState.setError('Falló la carga del perfil');
-        return throwError(() => err);
-      })
-    );
+    return this.get<User>('profile');
   }
 }
-

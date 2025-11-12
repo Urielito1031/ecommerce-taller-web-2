@@ -1,4 +1,6 @@
+// frontend/tienda/src/app/features/users/user.service.ts
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { ApiService } from '../../core/services/api.service';
 import { User } from '../../core/model/user.model';
@@ -6,19 +8,22 @@ import { User } from '../../core/model/user.model';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-   baseUrl = environment.apiNodeBaseUrl + '/users';
-
-  constructor(private api: ApiService) { }
-
-  getAllUsers(){
-    console.log(this.baseUrl);
-    return this.api.get<User[]>(`${this.baseUrl}`);
+export class UserService extends ApiService {
+  
+  constructor() {
+    super();
+    this.baseUrl = environment.apiNodeBaseUrl + '/users';
   }
-  createUser(user:User){
-    return this.api.post<User>(`${this.baseUrl}`,user);
+
+  getAllUsers(): Observable<User[]> {
+    return this.get<User[]>('');
   }
-  getUserById(id: number){
-    return this.api.get<User>(`${this.baseUrl}/${id}`);
+
+  createUser(user: User): Observable<User> {
+    return this.post<User>('', user);
+  }
+
+  getUserById(id: number): Observable<User> {
+    return this.get<User>(`${id}`);
   }
 }
