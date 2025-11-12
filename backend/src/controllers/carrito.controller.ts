@@ -31,8 +31,10 @@ export class CarritoController {
       return;
     }
 
-    const itemCarrito = await carritoService.agregarProducto(usuarioId, productoId, cantidad);
-    res.status(201).json(itemCarrito);
+    await carritoService.agregarProducto(usuarioId, productoId, cantidad);
+    // Devuelve el carrito completo actualizado
+    const carritoActualizado = await carritoService.obtenerCarritoPorUsuario(usuarioId);
+    res.status(201).json(carritoActualizado);
   }
 
   async actualizarCantidadDeUnProducto(req: Request, res: Response): Promise<void> {
@@ -82,7 +84,9 @@ export class CarritoController {
       }
 
       await carritoService.eliminarCantidadDeUnProducto(usuarioId, productoId, cantidad);
-      res.status(200).json({ message: "Cantidad del producto actualizada en el carrito" });
+      // Devuelve el carrito completo actualizado
+      const carritoActualizado = await carritoService.obtenerCarritoPorUsuario(usuarioId);
+      res.status(200).json(carritoActualizado);
   }
 
   async obtenerCarritoPorUsuario(req: Request, res: Response): Promise<void> {
@@ -117,7 +121,9 @@ export class CarritoController {
       }
       await carritoService.eliminarProducto(usuarioId, productoId);
     
-      res.status(200).json({ message: "Producto eliminado del carrito exitosamente" });
+      // Devuelve el carrito completo actualizado
+      const carritoActualizado = await carritoService.obtenerCarritoPorUsuario(usuarioId);
+      res.status(200).json(carritoActualizado);
   }
 }
 
