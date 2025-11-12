@@ -3,7 +3,9 @@ import { Component, computed, inject, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthFormComponent } from '../../components/auth-form/auth-form.component';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
+import { AuthService } from '../../services/auth.service';
 import { LoginCredentials, RegisterData } from '../../../../core/model/credentials.model';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +20,7 @@ export class RegisterComponent {
   authTitle = 'Registro';
 
   private authState = inject(AuthStateService);
+  private authService = inject(AuthService);
   private router = inject(Router);
   
   serverError = computed(() => this.authState.error());
@@ -42,7 +45,22 @@ export class RegisterComponent {
   onSubmit(data: LoginCredentials | RegisterData): void {
     if ('firstName' in data) {
       this.registroExitoso = true;
-      this.authState.register(data);
+      
+      this.authState.setLoading(true);
+      this.authState.setError(null);
+
+      this.authService.register(data)
+        .pipe(finalize(() => this.authState.setLoading(false)))
+        .subscribe({
+          next: () => {
+            // Registro exitoso, el effect se encargará de redirigir
+          },
+          error: (err: any) => {
+            const errorMsg = err.error?.message || 'El registro falló';
+            this.authState.setError(errorMsg);
+            this.registroExitoso = false;
+          }
+        });
     }
   }
 }

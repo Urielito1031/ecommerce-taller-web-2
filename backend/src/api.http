@@ -72,3 +72,6 @@ Content-Type: application/json
 
 ### CARRITO - Remove product
 DELETE http://localhost:4000/api/carrito/1/item/1
+
+### CARRITO - Clear cart
+DELETE http://localhost:4000/api/carrito/limpiar/1

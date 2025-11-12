@@ -81,6 +81,27 @@ export class CarritoStateService {
       });
   }
 
+  limpiarCarrito(): void {
+    const uid = this.authState.user()?.id;
+    if (!uid) {
+      this._error.set('Usuario no autenticado');
+      return;
+    }
+    this._loading.set(true);
+    this._error.set(null);
+    this.carritoApi.limpiarCarrito(uid)
+      .pipe(finalize(() => this._loading.set(false)))
+      .subscribe({
+        next: () => {
+          this._carrito.set({ usuarioId: uid, items: [], total: 0 });
+        },
+        error: (err) =>
+          this._error.set(
+            err?.message ?? 'Error al limpiar el carrito'
+          ),
+      });
+  }
+
   resetError() {
     this._error.set(null);
   }

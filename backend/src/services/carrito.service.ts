@@ -11,6 +11,27 @@ export class CarritoService {
     productoId: number,
     cantidad: number
   ): Promise<ItemCarritoDto> {
+    // Validar que el producto existe
+    const producto = await productoRepository.getById(productoId);
+    if (!producto) {
+      throw new Error("El producto no existe");
+    }
+
+    // Validar stock disponible
+    const carritoActual = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+    const itemExistente = carritoActual?.items.find(i => i.productoId === productoId);
+    const cantidadActual = itemExistente?.cantidad || 0;
+    const cantidadTotal = cantidadActual + cantidad;
+
+    if (cantidadTotal > producto.stock) {
+      const disponible = producto.stock - cantidadActual;
+      throw new Error(
+        cantidadActual > 0
+          ? `Ya tienes ${cantidadActual} unidades en el carrito. Solo puedes agregar ${disponible} más (stock disponible: ${producto.stock})`
+          : `Stock insuficiente. Solo hay ${producto.stock} unidades disponibles`
+      );
+    }
+
     const itemCarrito = await carritoRepository.agregarProducto(
       usuarioId,
       productoId,
@@ -74,15 +95,40 @@ export class CarritoService {
   }
 
   async eliminarCantidadDeUnProducto(usuarioId: number, productoId: number, cantidad: number): Promise<void> {
-    return carritoRepository.eliminarCantidadDeUnProducto(usuarioId, productoId, cantidad);
+    const carrito = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+    if (!carrito) {
+      throw new Error("Carrito no encontrado");
+    }
+
+    const item = carrito.items.find(i => i.productoId === productoId);
+    if (!item) {
+      throw new Error("Producto no encontrado en el carrito");
+    }
+
+    await carritoRepository.eliminarCantidadDeUnProducto(usuarioId, productoId, cantidad);
   }
 
   async eliminarProducto(usuarioId: number, productoId: number): Promise<void> {
-    return carritoRepository.eliminarProducto(usuarioId, productoId);
+    const carrito = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+    if (!carrito) {
+      throw new Error("Carrito no encontrado");
+    }
+
+    const item = carrito.items.find(i => i.productoId === productoId);
+    if (!item) {
+      throw new Error("Producto no estaba en el carrito");
+    }
+
+    await carritoRepository.eliminarProducto(usuarioId, productoId);
   }
 
   async limpiarCarrito(usuarioId: number): Promise<void> {
-    return carritoRepository.limpiarCarrito(usuarioId);
+    const carrito = await carritoRepository.obtenerCarritoPorUsuario(usuarioId);
+    if (!carrito) {
+      throw new Error("Carrito no encontrado");
+    }
+
+    await carritoRepository.limpiarCarrito(usuarioId);
   }
 
   // MAPPER: Prisma Entity → DTO

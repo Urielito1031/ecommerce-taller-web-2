@@ -30,6 +30,11 @@ router.delete(
    carritoController.eliminarProductoEnCarrito
 );
 
+router.delete(
+  "/limpiar/:usuarioId",
+  carritoController.limpiarCarrito
+);
+
 //delete viejo, elimina cantidad de un producto del carrito
 //eliminar a futuro, no usar
 router.delete(
