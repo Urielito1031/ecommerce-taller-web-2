@@ -27,21 +27,17 @@ export class CartPageComponent {
 
   // Métodos para manejar los eventos emitidos por cart-item
   incrementarCantidad(productoId: number): void {
-    console.log('Incrementar cantidad del producto:', productoId);
-    // TODO: Implementar la lógica para incrementar la cantidad
-    // this.carritoService.incrementQuantity(productoId);
+    this.carritoService.incrementarCantidad(productoId);
+
   }
 
   decrementarCantidad(productoId: number): void {
-    console.log('Decrementar cantidad del producto:', productoId);
-    // TODO: Implementar la lógica para decrementar la cantidad
-    // this.carritoService.decrementQuantity(productoId);
+    this.carritoService.decrementarCantidad(productoId);
+
   }
 
   eliminarItem(productoId: number): void {
-    console.log('Eliminar producto del carrito:', productoId);
-    // TODO: Implementar la lógica para eliminar el producto
-    // this.carritoService.removeItem(productoId);
+    this.carritoService.removerProductoDelCarrito(productoId);
   }
 
 }
