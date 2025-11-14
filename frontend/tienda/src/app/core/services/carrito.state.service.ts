@@ -3,6 +3,7 @@ import { CarritoConItemsYTotalDto, CarritoItem } from '../model/carrito.model';
 import { AuthStateService } from './auth.state.service';
 import { CartService } from '../../features/cart/cart.service';
 import { finalize } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CarritoStateService {
@@ -16,9 +17,7 @@ export class CarritoStateService {
 
   readonly items = computed<CarritoItem[]>(() => this._carrito()?.items ?? []);
   readonly total = computed<number>(() => this._carrito()?.total ?? 0);
-  readonly cantidadTotal = computed(() => {
-    return this.items().reduce((sum, item) => sum + item.cantidad, 0);
-  });
+
 
   private authState = inject(AuthStateService);
   private carritoApi = inject(CartService);
@@ -36,10 +35,11 @@ export class CarritoStateService {
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (carritoActualizado) => this._carrito.set(carritoActualizado),
-        error: (err) =>
-          this._error.set(
-            err?.message ?? 'Error al actualizar cantidad del producto'
-          ),
+        error: (err: HttpErrorResponse) =>{
+          const backendError = err.error?.message;
+          this._error.set(backendError);
+        }
+         
       });
   }
 
@@ -56,10 +56,12 @@ export class CarritoStateService {
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (dto) => this._carrito.set(dto),
-        error: (err) =>
-          this._error.set(
-            err?.message ?? 'Error al agregar producto al carrito'
-          ),
+        error: (err: HttpErrorResponse) => {
+          const backendError = err.error?.message ||
+           'Error al agregar producto al carrito';
+           console.error(backendError);
+          this._error.set(backendError);
+        }
       });
   }
   removerProductoDelCarrito(productoId: number): void {

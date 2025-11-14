@@ -8,15 +8,16 @@
     </div>
   </div>
 
-  <!-- Loading State -->
-  @if (loading()) {
+  
+  <!-- Loading State
+  @if (loading()) {  produce parpadeo con o sin el if de loading()
     <div class="text-center py-5">
       <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
         <span class="visually-hidden">Cargando...</span>
       </div>
       <p class="mt-3 text-muted">Cargando tu carrito...</p>
     </div>
-  }
+  } -->
 
   <!-- Error State -->
   @if (error()) {
@@ -27,7 +28,7 @@
   }
 
   <!-- Empty Cart -->
-  @if (items().length === 0 && !loading()) {
+  @if (items().length === 0 ) {
     <div class="text-center py-5">
       <i class="bi bi-cart-x" style="font-size: 6rem; color: #dee2e6;"></i>
       <h3 class="mt-4 text-muted">Tu carrito está vacío</h3>
@@ -39,7 +40,7 @@
   }
 
   <!-- Cart Items -->
-  @if (items().length > 0 && !loading()) {
+  @if (items().length > 0 ) {
     <div class="row">
       <!-- Items List -->
       <div class="col-lg-8 mb-4">
