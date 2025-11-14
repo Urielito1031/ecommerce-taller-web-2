@@ -55,9 +55,6 @@ export class ProductStateService {
       }
     });
 
-
-
-
   }
 
   loadProducts(force = false): void {
