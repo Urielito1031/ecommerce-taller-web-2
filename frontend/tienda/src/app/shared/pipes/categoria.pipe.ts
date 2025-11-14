@@ -7,21 +7,26 @@ import { Categoria } from '../../core/model/categoria.model';
 })
 export class TextoCategoriaPipe implements PipeTransform {
   transform(value: Categoria | string | null | undefined): string {
-    // Maneja diferentes casos
     if (!value) {
-      return 'Sin categoría';
+      return 'Sin Categoría';
     }
     
-    // Si es un objeto Categoria
+    let texto: string;
+    
     if (typeof value === 'object' && 'nombre' in value) {
-      return value.nombre.toLowerCase();
+      texto = value.nombre;
+    } 
+    else if (typeof value === 'string') {
+      texto = value;
+    } 
+    else {
+      return 'Sin Categoría';
     }
     
-    // Si es un string (por compatibilidad)
-    if (typeof value === 'string') {
-      return value.toLowerCase();
-    }
-    
-    return 'Sin categoría';
+    return texto
+      .toLowerCase()
+      .split(' ')
+      .map(palabra => palabra.charAt(0).toUpperCase() + palabra.slice(1))
+      .join(' ');
   }
 }

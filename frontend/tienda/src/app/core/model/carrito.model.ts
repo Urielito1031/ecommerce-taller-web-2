@@ -1,3 +1,4 @@
+import { Categoria } from "./categoria.model";
 import { Product } from "./product.model";
 
 export interface Carrito{
@@ -27,7 +28,7 @@ export interface CarritoConItemsYTotalDto {
       descripcion: string;
       precio: number;
       imagenUrl: string;
-      categoria: string;
+      categoria: Categoria;
       stock: number;
     };
     total: number; // cantidad * producto.precio

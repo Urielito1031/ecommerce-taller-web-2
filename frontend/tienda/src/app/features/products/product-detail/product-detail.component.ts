@@ -7,7 +7,7 @@ import { TextoCategoriaPipe } from '../../../shared/pipes/categoria.pipe';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [ButtonComponent,CommonModule,TextoCategoriaPipe],
+  imports: [ButtonComponent, CommonModule, TextoCategoriaPipe],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
