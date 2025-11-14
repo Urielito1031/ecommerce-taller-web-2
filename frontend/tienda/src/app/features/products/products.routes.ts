@@ -5,6 +5,6 @@ import { ProductFormComponent } from "./product-form/product-form.component";
 
 export const PRODUCT_ROUTES:Routes = [
   {path: '' , component: ProductListComponent},
-  {path: ':id', component: ProductDetailComponent},
   {path: 'agregar', component: ProductFormComponent},
+  {path: ':id', component: ProductDetailComponent},
 ]

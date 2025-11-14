@@ -10,6 +10,16 @@ export interface Product {
       categoria: Categoria; 
 
 }
+
+export interface ProductCrear {
+    nombre: string;
+    descripcion: string;
+    precio: number;
+    imagenUrl: string;
+    stock: number;
+    categoriaId: number; 
+
+}
 export interface ProductoConCantidad {
   id: number;
   productoId: number;

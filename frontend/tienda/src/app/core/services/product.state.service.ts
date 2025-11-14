@@ -1,11 +1,11 @@
 // frontend/tienda/src/app/core/services/product.state.service.ts
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { finalize } from 'rxjs';
-import { Product } from '../model/product.model';
+import { finalize, Observable, tap } from 'rxjs';
+import { Product, ProductCrear } from '../model/product.model';
 import { ProductService } from '../../features/products/product.service';
 import { AuthStateService } from './auth.state.service';
 import { Router } from '@angular/router';
-import { routes } from '../../app.routes';
+
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +41,20 @@ export class ProductStateService {
   private authApi = inject(AuthStateService);
   private router = inject(Router);
   private isLoaded = false; 
+
+  crearProducto(producto: ProductCrear): Observable<Product> {
+  this._loading.set(true);
+  this._error.set(null);
+
+  //en este caso devolvemos el observable para que el componente pueda actuar cuando se complete
+  return this.productApi.crearProducto(producto).pipe(
+    tap((productoCreado) => {
+      //actualizamos el estado interno de la lista de productos,agregando el ultimo creado
+      this._products.update(listaExistente => [...listaExistente, productoCreado]);
+    }),
+    finalize(() => this._loading.set(false))
+  );
+}
 
 
   filtrarPorCategoria(categoriaid:number):void {
