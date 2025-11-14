@@ -1,1 +1,18 @@
-<p>product-filter works!</p>
+<div class="filters-container" style="display:flex; gap:10px; align-items:center;">
+    <input type="number" placeholder="Min" [(ngModel)]="minPrice" style="width:80px;" />
+
+    <input type="number" placeholder="Max" [(ngModel)]="maxPrice" style="width:80px;" />
+
+    <select [(ngModel)]="category">
+        <option value="">Categoría</option>
+        @for (cat of categories; track cat.id) {
+        <option [value]="cat.id">
+            {{ cat.nombre }}
+        </option>
+        }
+    </select>
+
+    <button (click)="applyFilters()">
+        Filtrar
+    </button>
+</div>
