@@ -4,7 +4,7 @@
       <input type="number" placeholder="Precio maximo" [(ngModel)]="precioMaximo" (input)="actualizarPrecioMaximo()"/>
 
       <select [(ngModel)]="categoriaSeleccionadaId" (ngModelChange)="aplicarFiltro()">
-          <option value="" selected>Todas las categorías</option>
+          <option [ngValue]=0 selected>Todas las categorías</option>
           @for (item of categorias(); track item.id) {
               <option [ngValue]="item.id" >{{ item.nombre}}</option>
           }

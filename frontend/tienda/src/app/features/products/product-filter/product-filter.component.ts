@@ -18,7 +18,7 @@ export class ProductFilterComponent  {
 
   protected categorias = this.categoriaService.categorias;
 
-  protected categoriaSeleccionadaId: number | null = null;
+  protected categoriaSeleccionadaId: number = 0;
 
   protected precioMinimo: number | null = null;
   protected precioMaximo: number | null = null;
@@ -32,7 +32,7 @@ export class ProductFilterComponent  {
 
     // Recuperar TODOS los filtros de localStorage
     const cat = localStorage.getItem('filtro_categoria');
-    this.categoriaSeleccionadaId = cat ? Number(cat) : null;
+    this.categoriaSeleccionadaId = cat ? Number(cat) : 0;
 
     const min = localStorage.getItem('filtro_precio_minimo');
     this.precioMinimo = min ? Number(min) : null;
@@ -47,24 +47,15 @@ export class ProductFilterComponent  {
     if (this.precioMaximo !== null)
       this.productService.setSignalPrecioMaximo(this.precioMaximo);
 
-    // 3. Decidir QUÉ lista de productos cargar (ESTA ES LA PARTE CLAVE)
-    if (this.categoriaSeleccionadaId !== null) {
-      // Si hay categoría, cargar la lista filtrada por categoría
       this.productService.filtrarPorCategoria(this.categoriaSeleccionadaId);
-    } else {
-      // Si NO hay categoría, cargar la lista completa
-      this.productService.loadProducts();
     }
 
-  }
-
-  filtrarPorCategoria(categoriaId: number) {
+  filtrarPorCategoria(categoriaId: number){
     this.productService.filtrarPorCategoria(categoriaId);
   }
 
   aplicarFiltro() {
-      if (this.categoriaSeleccionadaId !== null) 
-        this.filtrarPorCategoria(this.categoriaSeleccionadaId);
+        this.filtrarPorCategoria(this.categoriaSeleccionadaId);    
   }
 
   actualizarPrecioMinimo(){

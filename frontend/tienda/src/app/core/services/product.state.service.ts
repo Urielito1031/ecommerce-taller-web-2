@@ -52,7 +52,13 @@ export class ProductStateService {
     
     this._error.set(null);
 
-    localStorage.setItem('filtro_categoria', categoriaid !== null ? categoriaid.toString() : '');
+    if (categoriaid === 0) {
+      console.log("entre");
+      this.loadProducts();
+      return;
+    }
+
+    localStorage.setItem('filtro_categoria', categoriaid.toString());
 
     this.productApi.filtrarPorCategoria(categoriaid).subscribe({
       next: productosFiltrados => {
@@ -84,9 +90,11 @@ export class ProductStateService {
 
 
   loadProducts(force = false): void {
-    if (this.isLoaded && !force) {
+    if (this.isLoaded && !force && localStorage.getItem('filtro_categoria') === '0') {
       return;
     }
+
+    localStorage.setItem('filtro_categoria', '0');
 
     this._loading.set(true);
     this._error.set(null);
