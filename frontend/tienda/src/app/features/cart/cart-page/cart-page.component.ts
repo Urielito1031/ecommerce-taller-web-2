@@ -13,7 +13,7 @@ export class CartPageComponent {
 
   carritoService = inject(CarritoStateService);
 
- carrito: Signal<CarritoConItemsYTotalDto| null> = this.carritoService.carrito;     
+ protected carrito: Signal<CarritoConItemsYTotalDto| null> = this.carritoService.carrito;     
   items:Signal<CarritoItem[]> = this.carritoService.items;         
   total: Signal<number> = this.carritoService.total;      
   loading: Signal<boolean> = this.carritoService.loading;    

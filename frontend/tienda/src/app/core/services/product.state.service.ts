@@ -3,6 +3,9 @@ import { Injectable, signal, computed, inject } from '@angular/core';
 import { finalize } from 'rxjs';
 import { Product } from '../model/product.model';
 import { ProductService } from '../../features/products/product.service';
+import { AuthStateService } from './auth.state.service';
+import { Router } from '@angular/router';
+import { routes } from '../../app.routes';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +15,7 @@ export class ProductStateService {
   private _loading = signal<boolean>(false);
   private _error = signal<string | null>(null);
   private _selectedProduct = signal<Product | null>(null);
+
 
   readonly products = this._products.asReadonly();
   readonly loading = this._loading.asReadonly();
@@ -27,7 +31,34 @@ export class ProductStateService {
   );
 
   private productApi = inject(ProductService);
+  private authApi = inject(AuthStateService);
+  private router = inject(Router);
   private isLoaded = false; 
+
+
+  filtrarPorCategoria(categoriaid:number):void {
+    if(!this.authApi.isAuthenticated()){
+       this.router.navigate(['/auth/login']);
+       return;
+    }
+    
+
+    this._error.set(null);
+
+    this.productApi.filtrarPorCategoria(categoriaid).subscribe({
+      next: productosFiltrados => {
+        this._products.set(productosFiltrados);
+      },
+      error: err => {
+        this._error.set(err?.message ?? 'Error al filtrar productos por categoría');
+        this._loading.set(false);
+      }
+    });
+
+
+
+
+  }
 
   loadProducts(force = false): void {
     if (this.isLoaded && !force) {
@@ -49,6 +80,13 @@ export class ProductStateService {
         }
       });
   }
+
+  // agregarNuevoProducto(producto: Product): void {
+
+  // }
+
+
+
 
   loadProductById(id: number): void {
     this._loading.set(true);

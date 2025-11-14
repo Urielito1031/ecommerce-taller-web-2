@@ -21,4 +21,13 @@ export class ProductService extends ApiService {
   getProductById(id:number): Observable<Product> {
     return this.get<Product>(`producto/${id}`);
   }
+
+  filtrarPorCategoria(categoriaid: number): Observable<Product[]> {
+    return this.get<Product[]>(`producto?categoriaId=${categoriaid}`);
+  }
+
+  
+  crearProducto(producto: Product): Observable<Product> {
+    return this.post<Product>('producto/crear', producto);
+  }
 }
