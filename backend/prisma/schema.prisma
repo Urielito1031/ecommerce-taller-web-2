@@ -30,6 +30,7 @@ model Categoria {
   icono     String?
 }
 
+
 model Producto {
   id           Int           @id @default(autoincrement())
   nombre       String
