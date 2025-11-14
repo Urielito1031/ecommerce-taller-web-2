@@ -17,6 +17,10 @@ export class LoginComponent {
   submitButtonText = 'Iniciar Sesión';
   isRegisterMode = false;
 
+  
+  textoAuthLink = '¿No tienes una cuenta? Regístrate aquí.';
+  authLink = '/auth/register';
+
   private authState = inject(AuthStateService);
   private router = inject(Router);
 

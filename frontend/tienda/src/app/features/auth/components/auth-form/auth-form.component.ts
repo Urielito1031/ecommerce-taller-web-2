@@ -1,22 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, InputSignal, output } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginCredentials, RegisterData } from '../../../../core/model/credentials.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-auth-form',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './auth-form.component.html',
   styleUrl: './auth-form.component.css'
 })
 export class AuthFormComponent {
 
  
-  public isRegisterMode = input<boolean>(false);
-  public submitButtonText = input<string>('Enviar');
-  public authTitle = input<string>('');
-  public serverError = input<string | null>(null);
-  public formSubmit = output<LoginCredentials | RegisterData>();
+   isRegisterMode = input<boolean>(false);
+   submitButtonText = input<string>('Enviar');
+   authTitle = input<string>('');
+   serverError = input<string | null>(null);
+   textoAuthLink = input<string>('');
+   authLink = input<string | null>(null);
+   formSubmit = output<LoginCredentials | RegisterData>();
 
 
   private fb = inject(NonNullableFormBuilder);

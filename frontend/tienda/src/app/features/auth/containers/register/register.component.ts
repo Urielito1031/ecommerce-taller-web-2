@@ -16,6 +16,8 @@ export class RegisterComponent {
   submitButtonText = 'Crear Cuenta';
   isRegisterMode = true;
   authTitle = 'Registro';
+  textoAuthLink = '¿Ya tienes una cuenta? Inicia sesión aquí.';
+  authLink = '/auth/login';
 
   private authState = inject(AuthStateService);
   private router = inject(Router);
