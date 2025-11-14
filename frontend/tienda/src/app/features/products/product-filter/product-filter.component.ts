@@ -25,10 +25,10 @@ export class ProductFilterComponent  {
 
 
   
-
   ngOnInit(){
     console.log("ProductFilterComponent initialized");
     this.categoriaService.cargarCategorias();
+    // preguntar si estan en local storage, 
 
   }
 
@@ -45,14 +45,13 @@ export class ProductFilterComponent  {
 
   }
 
-  filtrarPorPrecio() {
-      // const productosFiltradosPorPrecio = computed(() => {
-          
-      // });
-      
-      // this.products().filter(producto => {
-      // const cumpleMinimo = precioMinimo !== null ? producto.precio >= precioMinimo : true;
-      // const cumpleMaximo = precioMaximo !== null ? producto.precio <= precioMaximo : true;
-      // return cumpleMinimo && cumpleMaximo;
-    };
+  actualizarPrecioMinimo(){
+    console.log("entro al metodo actualizarPrecioMinimo con valor: ", this.precioMinimo);
+    this.productService.setSignalPrecioMinimo(this.precioMinimo);
+  }
+
+  actualizarPrecioMaximo(){
+    this.productService.setSignalPrecioMaximo(this.precioMaximo);
+  }
+
   }

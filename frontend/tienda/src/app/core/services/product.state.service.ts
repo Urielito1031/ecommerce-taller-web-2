@@ -16,11 +16,18 @@ export class ProductStateService {
   private _error = signal<string | null>(null);
   private _selectedProduct = signal<Product | null>(null);
 
+  // signals para precios minimo y maximo
+  private _precioMaximo = signal<number | null>(null);
+  private _precioMinimo = signal<number | null>(null);
 
   readonly products = this._products.asReadonly();
   readonly loading = this._loading.asReadonly();
   readonly error = this._error.asReadonly();
   readonly selectedProduct = this._selectedProduct.asReadonly();
+
+  // signals publicos para precios minimo y maximo
+  readonly precioMaximo = this._precioMaximo.asReadonly();
+  readonly precioMinimo = this._precioMinimo.asReadonly();
 
   readonly productsSorted = computed(() => 
     [...this._products()].sort((a, b) => a.nombre.localeCompare(b.nombre))
@@ -56,6 +63,18 @@ export class ProductStateService {
     });
 
   }
+
+  // metodos para actualizar signals precios
+
+  setSignalPrecioMinimo(precio: number | null): void {
+    this._precioMinimo.set(precio);
+    console.log("Signal precioMinimo actualizado");
+  }
+
+  setSignalPrecioMaximo(precio: number | null): void {
+    this._precioMaximo.set(precio);
+  }
+
 
   loadProducts(force = false): void {
     if (this.isLoaded && !force) {
