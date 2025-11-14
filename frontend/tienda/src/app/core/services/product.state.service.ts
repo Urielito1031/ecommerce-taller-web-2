@@ -42,6 +42,7 @@ export class ProductStateService {
   private router = inject(Router);
   private isLoaded = false; 
 
+  
 
   filtrarPorCategoria(categoriaid:number):void {
     if(!this.authApi.isAuthenticated()){
@@ -49,6 +50,7 @@ export class ProductStateService {
        return;
     }
     
+    console.log("filtraaaaaaaaaaa");
 
     this._error.set(null);
 
@@ -62,17 +64,24 @@ export class ProductStateService {
       }
     });
 
+    localStorage.setItem('filtro_categoria', categoriaid !== null ? categoriaid.toString() : '');
+
   }
 
   // metodos para actualizar signals precios
 
   setSignalPrecioMinimo(precio: number | null): void {
     this._precioMinimo.set(precio);
-    console.log("Signal precioMinimo actualizado");
+    
+    // Guardar en localStorage
+  localStorage.setItem('filtro_precio_minimo', precio !== null ? precio.toString() : '');
   }
 
   setSignalPrecioMaximo(precio: number | null): void {
     this._precioMaximo.set(precio);
+
+    // Guardar en localStorage
+  localStorage.setItem('filtro_precio_maximo', precio !== null ? precio.toString() : '');
   }
 
 

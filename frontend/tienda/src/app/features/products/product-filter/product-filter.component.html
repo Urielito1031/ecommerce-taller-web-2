@@ -1,13 +1,13 @@
-<div>
+  <div>
 
-    <input type="number" placeholder="Precio mínimo" [(ngModel)]="precioMinimo" (input)="actualizarPrecioMinimo()"/>
-    <input type="number" placeholder="Precio maximo" [(ngModel)]="precioMaximo" (input)="actualizarPrecioMaximo()"/>
+      <input type="number" placeholder="Precio mínimo" [(ngModel)]="precioMinimo" (input)="actualizarPrecioMinimo()"/>
+      <input type="number" placeholder="Precio maximo" [(ngModel)]="precioMaximo" (input)="actualizarPrecioMaximo()"/>
 
-    <select [(ngModel)]="categoriaSeleccionadaId" (click)="aplicarFiltro()">
-        <option value="" selected>Todas las categorías</option>
-        @for (item of categorias(); track item.id) {
-            <option [ngValue]="item.id" >{{ item.nombre}}</option>
-        }
-    </select>
-    
-</div>
+      <select [(ngModel)]="categoriaSeleccionadaId" (click)="aplicarFiltro()">
+          <option value="" selected>Todas las categorías</option>
+          @for (item of categorias(); track item.id) {
+              <option [ngValue]="item.id" >{{ item.nombre}}</option>
+          }
+      </select>
+      
+  </div>

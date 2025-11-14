@@ -28,7 +28,24 @@ export class ProductFilterComponent  {
   ngOnInit(){
     console.log("ProductFilterComponent initialized");
     this.categoriaService.cargarCategorias();
-    // preguntar si estan en local storage, 
+
+    // recuperar filtros de localstorage
+    const cat = localStorage.getItem('filtro_categoria');
+    this.categoriaSeleccionadaId = cat ? Number(cat) : null;
+
+    const min = localStorage.getItem('filtro_precio_minimo');
+    this.precioMinimo = min ? Number(min) : null;
+
+    const max = localStorage.getItem('filtro_precio_maximo');
+    this.precioMaximo = max ? Number(max) : null;
+
+    // Aplicar filtros apenas carga la pantalla si es que existen esos filtros en el local
+    if (this.categoriaSeleccionadaId !== null)
+        this.filtrarPorCategoria(this.categoriaSeleccionadaId);
+    if (this.precioMinimo !== null)
+        this.productService.setSignalPrecioMinimo(this.precioMinimo);
+    if (this.precioMaximo !== null)
+        this.productService.setSignalPrecioMaximo(this.precioMaximo);
 
   }
 
@@ -37,16 +54,11 @@ export class ProductFilterComponent  {
   }
 
   aplicarFiltro() {
-
-      if (this.categoriaSeleccionadaId !== null) {
+      if (this.categoriaSeleccionadaId !== null) 
         this.filtrarPorCategoria(this.categoriaSeleccionadaId);
-        // falta persistir en local storage
-      }
-
   }
 
   actualizarPrecioMinimo(){
-    console.log("entro al metodo actualizarPrecioMinimo con valor: ", this.precioMinimo);
     this.productService.setSignalPrecioMinimo(this.precioMinimo);
   }
 
