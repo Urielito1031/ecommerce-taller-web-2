@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { ProductStateService } from '../../../core/services/product.state.service';
 import { CategoriaStateService } from '../../../core/services/categoria.state.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-filter',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './product-filter.component.html',
   styleUrl: './product-filter.component.css'
 })
@@ -17,9 +18,9 @@ export class ProductFilterComponent  {
 
   protected categorias = this.categoriaService.categorias;
 
+  protected categoriaSeleccionadaId: number | null = null;
 
-
-
+  
 
   ngOnInit(){
     console.log("ProductFilterComponent initialized");
@@ -31,8 +32,15 @@ export class ProductFilterComponent  {
     this.productService.filtrarPorCategoria(categoriaId);
   }
 
-// aplicarFiltro() {
-// throw new Error('Method not implemented.');
-// }
+aplicarFiltro() {
+
+    if (this.categoriaSeleccionadaId !== null) {
+      this.filtrarPorCategoria(this.categoriaSeleccionadaId);
+      // falta persistir en local storage
+    }
+
+    
+
+}
 
 }
