@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { ProductStateService } from '../../../core/services/product.state.service';
 import { CategoriaStateService } from '../../../core/services/categoria.state.service';
 import { FormsModule } from '@angular/forms';
@@ -20,7 +20,9 @@ export class ProductFilterComponent  {
 
   protected categoriaSeleccionadaId: number | null = null;
 
-  
+  protected precioMinimo: number | null = null;
+  protected precioMaximo: number | null = null;
+
 
   ngOnInit(){
     console.log("ProductFilterComponent initialized");
@@ -32,15 +34,23 @@ export class ProductFilterComponent  {
     this.productService.filtrarPorCategoria(categoriaId);
   }
 
-aplicarFiltro() {
+  aplicarFiltro() {
 
-    if (this.categoriaSeleccionadaId !== null) {
-      this.filtrarPorCategoria(this.categoriaSeleccionadaId);
-      // falta persistir en local storage
-    }
+      if (this.categoriaSeleccionadaId !== null) {
+        this.filtrarPorCategoria(this.categoriaSeleccionadaId);
+        // falta persistir en local storage
+      }
 
-    
+  }
 
-}
-
-}
+  filtrarPorPrecio() {
+      // const productosFiltradosPorPrecio = computed(() => {
+          
+      // });
+      
+      // this.products().filter(producto => {
+      // const cumpleMinimo = precioMinimo !== null ? producto.precio >= precioMinimo : true;
+      // const cumpleMaximo = precioMaximo !== null ? producto.precio <= precioMaximo : true;
+      // return cumpleMinimo && cumpleMaximo;
+    };
+  }
