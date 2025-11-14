@@ -26,31 +26,11 @@ export class ProductFilterComponent  {
 
   
   ngOnInit(){
-    // console.log("ProductFilterComponent initialized");
-    // this.categoriaService.cargarCategorias();
-
-    // // recuperar filtros de localstorage
-    // const cat = localStorage.getItem('filtro_categoria');
-    // this.categoriaSeleccionadaId = cat ? Number(cat) : null;
-
-    // const min = localStorage.getItem('filtro_precio_minimo');
-    // this.precioMinimo = min ? Number(min) : null;
-
-    // const max = localStorage.getItem('filtro_precio_maximo');
-    // this.precioMaximo = max ? Number(max) : null;
-
-    // // Aplicar filtros apenas carga la pantalla si es que existen esos filtros en el local
-    // if (this.categoriaSeleccionadaId !== null)
-    //     this.filtrarPorCategoria(this.categoriaSeleccionadaId);
-    // if (this.precioMinimo !== null)
-    //     this.productService.setSignalPrecioMinimo(this.precioMinimo);
-    // if (this.precioMaximo !== null)
-    //     this.productService.setSignalPrecioMaximo(this.precioMaximo);
 
     console.log("ProductFilterComponent initialized");
     this.categoriaService.cargarCategorias();
 
-    // 1. Recuperar TODOS los filtros de localStorage
+    // Recuperar TODOS los filtros de localStorage
     const cat = localStorage.getItem('filtro_categoria');
     this.categoriaSeleccionadaId = cat ? Number(cat) : null;
 

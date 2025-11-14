@@ -14,6 +14,9 @@ export class SearchComponent {
  textValue = signal('');
  private searchService = inject(SearchService);
 
+ngOnInit(){
+  this.textValue.set(localStorage.getItem('filtro_busqueda') || '');
+}
 
   onValueChange(value:string):void{
     this.searchService.setQuery(value);
@@ -30,6 +33,7 @@ export class SearchComponent {
     this.searchService.clear();
 
   }
+
  
   // query = signal('');
 //NO SIRVE, YA QUE LA COMUNICACION CON EL ProductList no es directa, 
