@@ -3,10 +3,11 @@ import { Product } from '../../../core/model/product.model';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { CommonModule } from '@angular/common';
 import { CarritoStateService } from '../../../core/services/carrito.state.service';
+import { TextoCategoriaPipe } from '../../../shared/pipes/categoria.pipe';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [ButtonComponent,CommonModule],
+  imports: [ButtonComponent, CommonModule, TextoCategoriaPipe],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.css'
 })
