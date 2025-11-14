@@ -21,6 +21,8 @@ export class ProductListComponent {
   private router = inject(Router);
   private searchService = inject(SearchService);
 
+  
+
   products = this.productState.products;
   loading = this.productState.loading;
   error = this.productState.error;
