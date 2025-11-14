@@ -22,6 +22,8 @@ export class ProductFilterComponent  {
 
   
 
+  
+
   ngOnInit(){
     console.log("ProductFilterComponent initialized");
     this.categoriaService.cargarCategorias();
