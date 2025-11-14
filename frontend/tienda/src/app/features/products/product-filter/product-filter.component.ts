@@ -26,10 +26,31 @@ export class ProductFilterComponent  {
 
   
   ngOnInit(){
+    // console.log("ProductFilterComponent initialized");
+    // this.categoriaService.cargarCategorias();
+
+    // // recuperar filtros de localstorage
+    // const cat = localStorage.getItem('filtro_categoria');
+    // this.categoriaSeleccionadaId = cat ? Number(cat) : null;
+
+    // const min = localStorage.getItem('filtro_precio_minimo');
+    // this.precioMinimo = min ? Number(min) : null;
+
+    // const max = localStorage.getItem('filtro_precio_maximo');
+    // this.precioMaximo = max ? Number(max) : null;
+
+    // // Aplicar filtros apenas carga la pantalla si es que existen esos filtros en el local
+    // if (this.categoriaSeleccionadaId !== null)
+    //     this.filtrarPorCategoria(this.categoriaSeleccionadaId);
+    // if (this.precioMinimo !== null)
+    //     this.productService.setSignalPrecioMinimo(this.precioMinimo);
+    // if (this.precioMaximo !== null)
+    //     this.productService.setSignalPrecioMaximo(this.precioMaximo);
+
     console.log("ProductFilterComponent initialized");
     this.categoriaService.cargarCategorias();
 
-    // recuperar filtros de localstorage
+    // 1. Recuperar TODOS los filtros de localStorage
     const cat = localStorage.getItem('filtro_categoria');
     this.categoriaSeleccionadaId = cat ? Number(cat) : null;
 
@@ -39,13 +60,21 @@ export class ProductFilterComponent  {
     const max = localStorage.getItem('filtro_precio_maximo');
     this.precioMaximo = max ? Number(max) : null;
 
-    // Aplicar filtros apenas carga la pantalla si es que existen esos filtros en el local
-    if (this.categoriaSeleccionadaId !== null)
-        this.filtrarPorCategoria(this.categoriaSeleccionadaId);
+    // 2. Aplicar filtros de PRECIO al estado (para el computed signal)
+    // Esto es síncrono y no causa problemas.
     if (this.precioMinimo !== null)
-        this.productService.setSignalPrecioMinimo(this.precioMinimo);
+      this.productService.setSignalPrecioMinimo(this.precioMinimo);
     if (this.precioMaximo !== null)
-        this.productService.setSignalPrecioMaximo(this.precioMaximo);
+      this.productService.setSignalPrecioMaximo(this.precioMaximo);
+
+    // 3. Decidir QUÉ lista de productos cargar (ESTA ES LA PARTE CLAVE)
+    if (this.categoriaSeleccionadaId !== null) {
+      // Si hay categoría, cargar la lista filtrada por categoría
+      this.productService.filtrarPorCategoria(this.categoriaSeleccionadaId);
+    } else {
+      // Si NO hay categoría, cargar la lista completa
+      this.productService.loadProducts();
+    }
 
   }
 

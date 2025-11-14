@@ -56,7 +56,14 @@ export class ProductListComponent {
   });
 
   ngOnInit() {
-    this.productState.loadProducts();
+    // this.productState.loadProducts();
+
+    // const cat = localStorage.getItem('filtro_categoria');
+    // const cateogoriaLimpia = cat ? Number(cat) : null;
+
+    //  if (cateogoriaLimpia !== null){
+    //     this.productState.filtrarPorCategoria(cateogoriaLimpia);
+    //  }
   }
 
   addToCart(product: Product, cantidad = 1) {

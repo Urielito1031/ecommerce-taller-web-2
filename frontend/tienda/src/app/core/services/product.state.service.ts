@@ -50,9 +50,9 @@ export class ProductStateService {
        return;
     }
     
-    console.log("filtraaaaaaaaaaa");
-
     this._error.set(null);
+
+    localStorage.setItem('filtro_categoria', categoriaid !== null ? categoriaid.toString() : '');
 
     this.productApi.filtrarPorCategoria(categoriaid).subscribe({
       next: productosFiltrados => {
@@ -63,8 +63,6 @@ export class ProductStateService {
         this._loading.set(false);
       }
     });
-
-    localStorage.setItem('filtro_categoria', categoriaid !== null ? categoriaid.toString() : '');
 
   }
 
