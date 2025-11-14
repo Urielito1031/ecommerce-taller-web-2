@@ -49,6 +49,6 @@ export class HeaderComponent {
 
   logout() {
     this.authState.clearAuth();
-    this.router.navigate(['/auth/login']);
+    window.location.href = '/home';
   }
 }

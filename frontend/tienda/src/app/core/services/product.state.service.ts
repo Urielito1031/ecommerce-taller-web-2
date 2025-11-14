@@ -45,10 +45,10 @@ export class ProductStateService {
   
 
   filtrarPorCategoria(categoriaid:number):void {
-    if(!this.authApi.isAuthenticated()){
-       this.router.navigate(['/auth/login']);
-       return;
-    }
+    // if(!this.authApi.isAuthenticated()){
+    //    this.router.navigate(['/auth/login']);
+    //    return;
+    // }
     
     this._error.set(null);
 
