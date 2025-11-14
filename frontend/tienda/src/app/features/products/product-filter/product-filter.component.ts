@@ -25,10 +25,10 @@ export class ProductFilterComponent  {
 
 
   
-
   ngOnInit(){
     console.log("ProductFilterComponent initialized");
     this.categoriaService.cargarCategorias();
+    // preguntar si estan en local storage, 
 
   }
 
