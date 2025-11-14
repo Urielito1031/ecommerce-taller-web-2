@@ -24,6 +24,8 @@ export class ProductFilterComponent  {
   protected precioMaximo: number | null = null;
 
 
+  
+
   ngOnInit(){
     console.log("ProductFilterComponent initialized");
     this.categoriaService.cargarCategorias();

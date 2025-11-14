@@ -18,9 +18,11 @@
       </ul>
 
       <div class="d-flex align-items-center gap-3">
-        
-        <app-search></app-search>
-        <app-product-filter></app-product-filter>
+        @if(!esCarrito()) {
+          <app-product-filter></app-product-filter>
+          <app-search></app-search>
+
+        }
 
         <a routerLink="/cart" class="position-relative text-decoration-none text-dark">
           <i class="bi bi-cart fs-4"></i>
