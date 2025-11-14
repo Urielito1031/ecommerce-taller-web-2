@@ -1,7 +1,7 @@
 <div>
 
-    <input type="number" placeholder="Precio mínimo" [(ngModel)]="precioMinimo" (input)="filtrarPorPrecio()"/>
-    <input type="number" placeholder="Precio maximo" [(ngModel)]="precioMaximo" (input)="filtrarPorPrecio()"/>
+    <input type="number" placeholder="Precio mínimo" [(ngModel)]="precioMinimo" (input)="actualizarPrecioMinimo()"/>
+    <input type="number" placeholder="Precio maximo" [(ngModel)]="precioMaximo" (input)="actualizarPrecioMaximo()"/>
 
     <select [(ngModel)]="categoriaSeleccionadaId" (click)="aplicarFiltro()">
         <option value="" selected>Todas las categorías</option>
