@@ -2,12 +2,13 @@ import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SearchComponent } from '../search/search.component';
+import { ProductFilterComponent } from '../../../features/products/product-filter/product-filter.component';
 import { AuthStateService } from '../../../core/services/auth.state.service';
 import { CarritoStateService } from '../../../core/services/carrito.state.service';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, SearchComponent, RouterLink, RouterLinkActive],
+  imports: [CommonModule, SearchComponent, RouterLink, RouterLinkActive, ProductFilterComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
