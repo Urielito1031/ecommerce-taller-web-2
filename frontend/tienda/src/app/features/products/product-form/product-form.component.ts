@@ -8,6 +8,7 @@ import { ProductStateService } from '../../../core/services/product.state.servic
 import { CategoriaStateService } from '../../../core/services/categoria.state.service';
 import { ProductCrear } from '../../../core/model/product.model';
 import { TextoCategoriaPipe } from '../../../shared/pipes/categoria.pipe';
+import { ProductoCrearDto } from '../../../../../../../backend/src/dtos/product/productoCrearDto';
 
 @Component({
   selector: 'app-product-form',
@@ -50,7 +51,6 @@ export class ProductFormComponent implements OnInit {
       categoriaId: [0, [Validators.required, Validators.min(1)]],
       precio: [0, [Validators.required, Validators.min(0.01)]],
       imagenFile: [null, [Validators.required]],  // Para validación
-      imagenUrl: ['', [Validators.required]],     // URL que se envía al backend
       stock: [1, [Validators.required, Validators.min(1), Validators.max(9999)]]
     });
   }
@@ -62,12 +62,7 @@ export class ProductFormComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
-      if (!allowedTypes.includes(file.type)) {
-        this._error.set('Formato de imagen no válido. Solo: JPG, PNG, WEBP, GIF');
-        this.clearImage();
-        return;
-      }
+     
       
       const maxSize = 5 * 1024 * 1024;
       if (file.size > maxSize) {
@@ -83,9 +78,9 @@ export class ProductFormComponent implements OnInit {
       this.selectedFileName = fileName;
 
       const imageUrl = `/img/${fileName}`;
+      this.productForm.get('imagenUrl')?.setValue(imageUrl);
       
       this.productForm.get('imagenFile')?.setValue(file);
-      this.productForm.get('imagenUrl')?.setValue(imageUrl);
       this._error.set(null);
       
       const reader = new FileReader();
@@ -101,7 +96,6 @@ export class ProductFormComponent implements OnInit {
   clearImage(): void {
     this.selectedFileName = null;
     this.productForm.get('imagenFile')?.setValue(null);
-    this.productForm.get('imagenUrl')?.setValue('');
     this._imagePreview.set(null);
     
     const fileInput = document.getElementById('imagenFile') as HTMLInputElement;
@@ -128,20 +122,19 @@ export class ProductFormComponent implements OnInit {
 
     const formValue = this.productForm.getRawValue();
     
-    const productoDto: ProductCrear = {
-      nombre: formValue.nombre,
-      descripcion: formValue.descripcion,
-      categoriaId: Number(formValue.categoriaId),  
-      precio: Number(formValue.precio),
-      imagenUrl: formValue.imagenUrl,
-      stock: Number(formValue.stock)
-    };
-
-    console.log('📤 Enviando al backend:', productoDto);
+    const formData = new FormData();
+  formData.append('nombre', formValue.nombre);
+  formData.append('descripcion', formValue.descripcion);
+  formData.append('categoriaId', formValue.categoriaId);
+  formData.append('precio', formValue.precio);
+  formData.append('stock', formValue.stock);
+  formData.append('imagenFile', formValue.imagenFile);  
+  console.log('📤 Enviando al backend:', formData);
 
     this._loading.set(true);
 
-    this.productService.crearProducto(productoDto)
+   
+    this.productService.crearProducto(formData)
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (productoCreado) => {

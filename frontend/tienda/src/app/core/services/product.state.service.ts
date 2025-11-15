@@ -42,14 +42,14 @@ export class ProductStateService {
   private router = inject(Router);
   private isLoaded = false; 
 
-  crearProducto(producto: ProductCrear): Observable<Product> {
+  
+
+  crearProducto(formData: FormData): Observable<Product> {
   this._loading.set(true);
   this._error.set(null);
 
-  //en este caso devolvemos el observable para que el componente pueda actuar cuando se complete
-  return this.productApi.crearProducto(producto).pipe(
+  return this.productApi.crearProducto(formData).pipe(
     tap((productoCreado) => {
-      //actualizamos el estado interno de la lista de productos,agregando el ultimo creado
       this._products.update(listaExistente => [...listaExistente, productoCreado]);
     }),
     finalize(() => this._loading.set(false))

@@ -18,8 +18,7 @@ export const productoValidationRules = [
     .notEmpty().withMessage('El precio es obligatorio')
     .isFloat({ gt: 0 }).withMessage('El precio debe ser un número mayor a 0'),
 
-  body('imagenUrl')
-    .notEmpty().withMessage('La URL de la imagen es obligatoria'),
+  
 
   body('stock')
     .notEmpty().withMessage('El stock es obligatorio')

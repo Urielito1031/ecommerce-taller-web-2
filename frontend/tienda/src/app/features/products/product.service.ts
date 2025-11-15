@@ -28,7 +28,7 @@ export class ProductService extends ApiService {
     return this.get<Product[]>(`producto?categoriaId=${categoriaid}`);
   }
 
-  crearProducto(producto: ProductCrear): Observable<Product> {
+  crearProducto(producto: FormData): Observable<Product> {
     return this.post<Product>('producto/crear', producto);
   }
 }
