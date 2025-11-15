@@ -30,7 +30,8 @@ export const registerValidationRules = [
 
     body('password')
    .notEmpty().withMessage('La contraseña es obligatoria')
-   .isLength({min:6}).withMessage("La contraseña debe tener al meno 6 caracteres"),
+   .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/)
+   .withMessage("La contraseña debe tener minimo 8 caracteres, mayúscula, minúscula, número"),
 
    body('firstName')
    .notEmpty().withMessage("El nombre el obligatorio")

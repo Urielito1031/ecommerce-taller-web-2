@@ -87,6 +87,10 @@ export class AuthStateService {
     this._user.set(null);
     this._error.set(null);
     localStorage.removeItem(AUTH_STORAGE_KEY);
+    localStorage.removeItem('filtro_categoria');
+    localStorage.removeItem('filtro_precio_minimo');
+    localStorage.removeItem('filtro_precio_maximo');
+    localStorage.removeItem('filtro_busqueda');
   }
 
   setLoading(loading: boolean) {

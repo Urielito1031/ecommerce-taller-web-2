@@ -30,7 +30,13 @@ export class AuthFormComponent {
 
     this.authForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', isRegister 
+        ? [Validators.required, 
+            Validators.minLength(8),
+              Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/)
+          ]
+        : 
+        [Validators.required]],
       firstName: ['', isRegister ? [Validators.required] : []],
       lastName: ['', isRegister ? [Validators.required] : []],
       address: ['', isRegister ? [Validators.required] : []],
@@ -69,7 +75,7 @@ export class AuthFormComponent {
     
     if (control.hasError('required')) return 'Este campo es obligatorio';
     if (control.hasError('email')) return 'Email inválido';
-    if (control.hasError('minlength')) return 'Mínimo 6 caracteres';
+    if (control.hasError('pattern')) return 'Mínimo 8 caracteres, una mayúscula, una minúscula y almenos un número';
     
     return null;
   }

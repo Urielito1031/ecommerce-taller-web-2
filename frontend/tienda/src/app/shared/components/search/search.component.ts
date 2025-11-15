@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { SearchService } from '../../../core/services/search.state.service';
 import { FormsModule } from '@angular/forms'; 
 
@@ -12,8 +12,11 @@ import { FormsModule } from '@angular/forms';
 export class SearchComponent {
 
  textValue = signal('');
+ private searchService = inject(SearchService);
 
-  constructor(private searchService: SearchService){}
+ngOnInit(){
+  this.textValue.set(localStorage.getItem('filtro_busqueda') || '');
+}
 
   onValueChange(value:string):void{
     this.searchService.setQuery(value);
@@ -30,6 +33,7 @@ export class SearchComponent {
     this.searchService.clear();
 
   }
+
  
   // query = signal('');
 //NO SIRVE, YA QUE LA COMUNICACION CON EL ProductList no es directa, 

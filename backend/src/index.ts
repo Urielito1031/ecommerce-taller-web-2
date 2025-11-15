@@ -12,6 +12,8 @@ import categoriaRoutes from './routes/categoria.routes';
 
 const app = express();
 app.use(express.json());
+
+app.use('/uploads', express.static('uploads'));
 app.disable('x-powered-by');
 app.use(cors({
     origin: 'http://localhost:4200',

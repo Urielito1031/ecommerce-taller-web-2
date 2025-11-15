@@ -7,6 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class CarritoStateService {
+
+  
   private _carrito = signal<CarritoConItemsYTotalDto | null>(null);
   private _loading = signal<boolean>(false);
   private _error = signal<string | null>(null);
@@ -120,8 +122,8 @@ export class CarritoStateService {
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (dto) => this._carrito.set(dto),
-        error: (err) =>
-          this._error.set(err?.message ?? 'Error al cargar carrito'),
+        error: (err: HttpErrorResponse) =>
+          this._error.set(err.error.message ?? 'Error al cargar carrito'),
       });
   }
 

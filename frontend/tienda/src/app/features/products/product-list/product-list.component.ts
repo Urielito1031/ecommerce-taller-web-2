@@ -21,25 +21,49 @@ export class ProductListComponent {
   private router = inject(Router);
   private searchService = inject(SearchService);
 
+  
+
   products = this.productState.products;
   loading = this.productState.loading;
   error = this.productState.error;
 
+  // signals de precio maximo y minimo
+  precioMaximo = this.productState.precioMaximo;
+  precioMinimo = this.productState.precioMinimo;
+
   filteredProducts = computed(() => {
     const term = this.searchService.query().toLowerCase();
     const products = this.products();
+    const precioMaximo = this.precioMaximo();
+    const precioMinimo = this.precioMinimo();
 
-    if (!term) return products;
+    if (!term && !precioMaximo && !precioMinimo) return products;
     
-    return products.filter(
-      (p) =>
-        p.nombre.toLowerCase().includes(term) ||
-        p.descripcion.toLowerCase().includes(term)
+    return products.filter((p) =>{
+
+      const matchesTerm =
+      term ? (p.nombre.toLowerCase().includes(term) ||
+              p.descripcion.toLowerCase().includes(term)) : true;
+
+      const matchesMin = precioMinimo !== null ? p.precio >= precioMinimo : true;
+      const matchesMax = precioMaximo !== null ? p.precio <= precioMaximo : true;
+
+      return matchesTerm && matchesMin && matchesMax;
+
+      }
+        
     );
   });
 
   ngOnInit() {
-    this.productState.loadProducts();
+    // this.productState.loadProducts();
+
+    // const cat = localStorage.getItem('filtro_categoria');
+    // const cateogoriaLimpia = cat ? Number(cat) : null;
+
+    //  if (cateogoriaLimpia !== null){
+    //     this.productState.filtrarPorCategoria(cateogoriaLimpia);
+    //  }
   }
 
   addToCart(product: Product, cantidad = 1) {

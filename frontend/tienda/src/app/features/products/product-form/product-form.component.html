@@ -1,0 +1,202 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+      
+      <div class="card border-0 shadow-sm">
+        
+        <div class="card-header bg-primary text-white py-3">
+          <h3 class="mb-0">
+            <i class="bi bi-plus-circle me-2"></i>
+            Agregar Nuevo Producto
+          </h3>
+        </div>
+
+        <div class="card-body p-4">
+          
+          <!-- Mensajes -->
+          @if (mensajeExito(); as success) {
+            <div class="alert alert-success" role="alert">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              {{ success }}
+            </div>
+          }
+
+          @if (error(); as errorMsg) {
+            <div class="alert alert-danger" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              {{ errorMsg }}
+            </div>
+          }
+
+          <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+            
+            <!-- Nombre -->
+            <div class="mb-3">
+              <label for="nombre" class="form-label fw-semibold">
+                Nombre del Producto <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                id="nombre"
+                class="form-control"
+                formControlName="nombre"
+                placeholder="Ej: iPhone 15 Pro Max"
+              />
+              @if (getError('nombre'); as error) {
+                <div class="text-danger small mt-1">{{ error }}</div>
+              }
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+              <label for="descripcion" class="form-label fw-semibold">
+                Descripción <span class="text-danger">*</span>
+              </label>
+              <textarea
+                id="descripcion"
+                class="form-control"
+                formControlName="descripcion"
+                rows="3"
+                placeholder="Describe las características..."
+              ></textarea>
+              @if (getError('descripcion'); as error) {
+                <div class="text-danger small mt-1">{{ error }}</div>
+              }
+            </div>
+
+            <!-- Categoría -->
+            <div class="mb-3">
+              <label for="categoriaId" class="form-label fw-semibold">
+                Categoría <span class="text-danger">*</span>
+              </label>
+              <select
+                id="categoriaId"
+                class="form-select"
+                formControlName="categoriaId"
+              >
+                <option [value]="0">-- Selecciona una categoría --</option>
+                @for (cat of categorias(); track cat.id) {
+                  <option [value]="cat.id">
+                    {{ cat | textoCategoria }}
+                  </option>
+                }
+              </select>
+              @if (getError('categoriaId'); as error) {
+                <div class="text-danger small mt-1">{{ error }}</div>
+              }
+            </div>
+
+            <!-- Precio y Stock -->
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="precio" class="form-label fw-semibold">
+                  Precio ($) <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="precio"
+                  class="form-control"
+                  formControlName="precio"
+                  placeholder="0.00"
+                  step="0.01"
+                />
+                @if (getError('precio'); as error) {
+                  <div class="text-danger small mt-1">{{ error }}</div>
+                }
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="stock" class="form-label fw-semibold">
+                  Stock <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="stock"
+                  class="form-control"
+                  formControlName="stock"
+                  placeholder="1"
+                  min="1"
+                />
+                @if (getError('stock'); as error) {
+                  <div class="text-danger small mt-1">{{ error }}</div>
+                }
+              </div>
+            </div>
+
+            <!-- Imagen -->
+            <div class="mb-4">
+              <label for="imagenFile" class="form-label fw-semibold">
+                Imagen del Producto <span class="text-danger">*</span>
+              </label>
+              
+              <input
+                type="file"
+                id="imagenFile"
+                class="form-control"
+                accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                (change)="onFileSelected($event)"
+              />
+              
+              @if (getError('imagenFile'); as error) {
+                <div class="text-danger small mt-1">{{ error }}</div>
+              }
+              
+              <small class="form-text text-muted d-block mt-1">
+                <i class="bi bi-file-image me-1"></i>
+                JPG, PNG, WEBP, GIF (Máx. 5MB)
+              </small>
+              
+              <!-- Preview -->
+              @if (imagePreview(); as preview) {
+                <div class="mt-3 position-relative d-inline-block">
+                  <img 
+                    [src]="preview" 
+                    alt="Preview" 
+                    class="img-thumbnail" 
+                    style="max-width: 250px; max-height: 250px; object-fit: cover;"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1"
+                    (click)="clearImage()"
+                  >
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+              }
+            </div>
+
+            <!-- Botones -->
+            <div class="d-flex gap-3 justify-content-end">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="onCancel()"
+                [disabled]="loading()"
+              >
+                <i class="bi bi-x-circle me-2"></i>
+                Cancelar
+              </button>
+              
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="loading() || !productForm.valid"
+              >
+                @if (loading()) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                  Creando...
+                } @else {
+                  <i class="bi bi-plus-circle me-2"></i>
+                  Agregar Producto
+                }
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

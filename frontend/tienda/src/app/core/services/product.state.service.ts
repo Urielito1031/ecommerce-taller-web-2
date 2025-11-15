@@ -1,8 +1,11 @@
 // frontend/tienda/src/app/core/services/product.state.service.ts
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { finalize } from 'rxjs';
-import { Product } from '../model/product.model';
+import { finalize, Observable, tap } from 'rxjs';
+import { Product, ProductCrear } from '../model/product.model';
 import { ProductService } from '../../features/products/product.service';
+import { AuthStateService } from './auth.state.service';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +16,18 @@ export class ProductStateService {
   private _error = signal<string | null>(null);
   private _selectedProduct = signal<Product | null>(null);
 
+  // signals para precios minimo y maximo
+  private _precioMaximo = signal<number | null>(null);
+  private _precioMinimo = signal<number | null>(null);
+
   readonly products = this._products.asReadonly();
   readonly loading = this._loading.asReadonly();
   readonly error = this._error.asReadonly();
   readonly selectedProduct = this._selectedProduct.asReadonly();
+
+  // signals publicos para precios minimo y maximo
+  readonly precioMaximo = this._precioMaximo.asReadonly();
+  readonly precioMinimo = this._precioMinimo.asReadonly();
 
   readonly productsSorted = computed(() => 
     [...this._products()].sort((a, b) => a.nombre.localeCompare(b.nombre))
@@ -27,12 +38,76 @@ export class ProductStateService {
   );
 
   private productApi = inject(ProductService);
+  private authApi = inject(AuthStateService);
+  private router = inject(Router);
   private isLoaded = false; 
 
-  loadProducts(force = false): void {
-    if (this.isLoaded && !force) {
+  
+
+  crearProducto(formData: FormData): Observable<Product> {
+  this._loading.set(true);
+  this._error.set(null);
+
+  return this.productApi.crearProducto(formData).pipe(
+    tap((productoCreado) => {
+      this._products.update(listaExistente => [...listaExistente, productoCreado]);
+    }),
+    finalize(() => this._loading.set(false))
+  );
+}
+
+
+  filtrarPorCategoria(categoriaid:number):void {
+    // if(!this.authApi.isAuthenticated()){
+    //    this.router.navigate(['/auth/login']);
+    //    return;
+    // }
+    
+    this._error.set(null);
+
+    if (categoriaid === 0) {
+      console.log("entre");
+      this.loadProducts();
       return;
     }
+
+    localStorage.setItem('filtro_categoria', categoriaid.toString());
+
+    this.productApi.filtrarPorCategoria(categoriaid).subscribe({
+      next: productosFiltrados => {
+        this._products.set(productosFiltrados);
+      },
+      error: err => {
+        this._error.set(err?.message ?? 'Error al filtrar productos por categoría');
+        this._loading.set(false);
+      }
+    });
+
+  }
+
+  // metodos para actualizar signals precios
+
+  setSignalPrecioMinimo(precio: number | null): void {
+    this._precioMinimo.set(precio);
+    
+    // Guardar en localStorage
+  localStorage.setItem('filtro_precio_minimo', precio !== null ? precio.toString() : '');
+  }
+
+  setSignalPrecioMaximo(precio: number | null): void {
+    this._precioMaximo.set(precio);
+
+    // Guardar en localStorage
+  localStorage.setItem('filtro_precio_maximo', precio !== null ? precio.toString() : '');
+  }
+
+
+  loadProducts(force = false): void {
+    if (this.isLoaded && !force && localStorage.getItem('filtro_categoria') === '0') {
+      return;
+    }
+
+    localStorage.setItem('filtro_categoria', '0');
 
     this._loading.set(true);
     this._error.set(null);
@@ -49,6 +124,13 @@ export class ProductStateService {
         }
       });
   }
+
+  // agregarNuevoProducto(producto: Product): void {
+
+  // }
+
+
+
 
   loadProductById(id: number): void {
     this._loading.set(true);
