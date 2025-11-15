@@ -1,47 +1,88 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+<nav class="csgo-navbar sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" routerLink="/">MiTienda</a>
+    <div class="csgo-nav-wrapper">
+      <!-- Logo/Brand -->
+      <a class="csgo-brand" routerLink="/">
+        <div class="brand-icon">
+          <i class="bi bi-crosshair"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">CS:GO</span>
+          <span class="brand-subtitle">MARKET</span>
+        </div>
+      </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-      data-bs-target="#navbarContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <!-- Mobile Toggle -->
+      <button class="csgo-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarContent">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/products" routerLinkActive="active">Productos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/products/agregar" routerLinkActive="active">Agregar Producto</a>
-        </li>
-      </ul>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Navigation Links -->
+        <ul class="csgo-nav-menu">
+          <li class="csgo-nav-item">
+            <a class="csgo-nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <i class="bi bi-house-door-fill"></i>
+              <span>Inicio</span>
+            </a>
+          </li>
+          <li class="csgo-nav-item">
+            <a class="csgo-nav-link" routerLink="/products" routerLinkActive="active">
+              <i class="bi bi-grid-fill"></i>
+              <span>Arsenal</span>
+            </a>
+          </li>
+          <li class="csgo-nav-item">
+            <a class="csgo-nav-link" routerLink="/products/agregar" routerLinkActive="active">
+              <i class="bi bi-plus-circle-fill"></i>
+              <span>Agregar</span>
+            </a>
+          </li>
+        </ul>
 
-      <div class="d-flex align-items-center gap-3">
-        @if(!esCarrito() && !esAgregarProducto()) {
-          <app-product-filter></app-product-filter>
-          <app-search></app-search>
-        }
-
-        <a routerLink="/cart" class="position-relative text-decoration-none text-dark">
-          <i class="bi bi-cart fs-4"></i>
-          @if (totalItems() > 0) {
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {{ totalItems() }}
-            </span>
+        <!-- Right Side Actions -->
+        <div class="csgo-nav-actions">
+          @if(!esCarrito() && !esAgregarProducto()) {
+            <div class="filter-search-group">
+              <app-product-filter></app-product-filter>
+              <app-search></app-search>
+            </div>
           }
-        </a>
 
-        @if (isAuthenticated()) {
-          <span class="fw-semibold">{{ user()?.firstName }} {{ user()?.lastName }}</span>
-          <button (click)="logout()" class="btn btn-outline-danger btn-sm">Cerrar sesión</button>
-        } @else {
-          <a routerLink="/auth/login" class="btn btn-outline-primary btn-sm">Iniciar sesión</a>
-          <a routerLink="/auth/register" class="btn btn-outline-success btn-sm">Registrarse</a>
-        }
+          <!-- Cart -->
+          <a routerLink="/cart" class="csgo-cart-btn">
+            <i class="bi bi-bag-fill"></i>
+            @if (totalItems() > 0) {
+              <span class="cart-badge">{{ totalItems() }}</span>
+            }
+          </a>
+
+          <!-- User Actions -->
+          <div class="csgo-user-section">
+            @if (isAuthenticated()) {
+              <div class="user-info">
+                <i class="bi bi-person-circle"></i>
+                <span class="user-name">{{ user()?.firstName }} {{ user()?.lastName }}</span>
+              </div>
+              <button (click)="logout()" class="btn btn-danger btn-sm csgo-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                Salir
+              </button>
+            } @else {
+              <a routerLink="/auth/login" class="btn btn-outline-primary btn-sm csgo-btn">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Login
+              </a>
+              <a routerLink="/auth/register" class="btn btn-outline-success btn-sm csgo-btn">
+                <i class="bi bi-person-plus-fill"></i>
+                Registro
+              </a>
+            }
+          </div>
+        </div>
       </div>
     </div>
   </div>

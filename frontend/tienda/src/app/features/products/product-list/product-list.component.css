@@ -1,0 +1,63 @@
+/* CS:GO Product List Container */
+.csgo-products-container {
+  min-height: 60vh;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.csgo-products-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+  opacity: 0.5;
+}
+
+/* Grid Layout */
+.products-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(145deg, #1e2230, #1a1d29);
+  border: 2px dashed #2d3142;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.empty-state i {
+  font-size: 5rem;
+  color: #2d3142;
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  color: #6b7280;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Loading Animation */
+@keyframes loadingPulse {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.loading-skeleton {
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}

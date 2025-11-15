@@ -1,15 +1,17 @@
-
-<div class="input-group">
+<div class="csgo-search-wrapper">
+  <div class="search-icon">
+    <i class="bi bi-search"></i>
+  </div>
   <input
     type="text"
-    class="form-control"
-    placeholder="Buscar producto"
+    class="csgo-search-input"
+    placeholder="Buscar en arsenal..."
     [(ngModel)]="textValue"
     (ngModelChange)="onValueChange($event)"
   />
-  
-    <button class="btn btn-outline-secondary" type="button" (click)="clear()">
-      <i class="bi bi-x"></i>
+  @if(textValue()) {
+    <button class="search-clear-btn" type="button" (click)="clear()">
+      <i class="bi bi-x-lg"></i>
     </button>
-  
+  }
 </div>

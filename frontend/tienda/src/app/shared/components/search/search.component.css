@@ -1,0 +1,74 @@
+/* CS:GO Search Component */
+.csgo-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 280px;
+  min-width: 200px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  color: #f59e0b;
+  font-size: 1.1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.csgo-search-input {
+  width: 100%;
+  padding: 0.7rem 3rem 0.7rem 3rem;
+  background: #0f1117;
+  border: 2px solid #2d3142;
+  border-radius: 8px;
+  color: #e5e7eb;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.csgo-search-input::placeholder {
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+}
+
+.csgo-search-input:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  background: #1a1d29;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 0.5rem;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 2px solid #2d3142;
+  border-radius: 6px;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.search-clear-btn:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+}
+
+@media (max-width: 991px) {
+  .csgo-search-wrapper {
+    width: 100%;
+  }
+}

@@ -1,0 +1,275 @@
+/* CS:GO Cart Item */
+.csgo-cart-item {
+  background: linear-gradient(145deg, #1e2230, #1a1d29);
+  border: 2px solid #2d3142;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.csgo-cart-item:hover {
+  border-color: #f59e0b;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 158, 11, 0.2);
+  transform: translateX(5px);
+}
+
+.csgo-cart-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #f59e0b, #ff6b35);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.csgo-cart-item:hover::before {
+  opacity: 1;
+}
+
+.item-body {
+  padding: 1.5rem;
+  position: relative;
+}
+
+/* Product Image */
+.item-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #0f1117, #1a1d29);
+  border: 2px solid #2d3142;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.item-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(245, 158, 11, 0.03) 10px,
+      rgba(245, 158, 11, 0.03) 20px
+    );
+}
+
+.csgo-cart-item:hover .item-image {
+  border-color: #f59e0b;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+  transform: scale(1.05);
+}
+
+.item-image i {
+  font-size: 2.5rem;
+  color: #f59e0b;
+  filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+  position: relative;
+  z-index: 1;
+}
+
+/* Product Details */
+.item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.item-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #e5e7eb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.item-price-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #9ca3af;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.unit-price {
+  color: #f59e0b;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Quantity Controls */
+.quantity-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  background: #0f1117;
+  border: 2px solid #2d3142;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.qty-btn {
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  color: #f59e0b;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 700;
+}
+
+.qty-btn:hover:not(:disabled) {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+}
+
+.qty-btn:disabled {
+  color: #4b5563;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.qty-input {
+  width: 60px;
+  height: 40px;
+  background: #1a1d29;
+  border: none;
+  border-left: 2px solid #2d3142;
+  border-right: 2px solid #2d3142;
+  color: #e5e7eb;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.qty-label {
+  color: #6b7280;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Subtotal & Actions */
+.item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.item-subtotal {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #10b981;
+  text-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+  letter-spacing: -0.5px;
+}
+
+.remove-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+  color: #dc2626;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-btn:hover {
+  background: #dc2626;
+  color: #fff;
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+  transform: translateY(-2px);
+}
+
+.remove-btn i {
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .item-body {
+    padding: 1rem;
+  }
+
+  .item-image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .item-image i {
+    font-size: 2rem;
+  }
+
+  .item-title {
+    font-size: 1rem;
+  }
+
+  .item-subtotal {
+    font-size: 1.4rem;
+  }
+
+  .quantity-section {
+    margin: 1rem 0;
+  }
+
+  .item-actions {
+    align-items: center;
+    width: 100%;
+  }
+
+  .remove-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

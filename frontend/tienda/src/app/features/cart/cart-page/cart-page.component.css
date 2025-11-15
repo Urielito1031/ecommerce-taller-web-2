@@ -1,0 +1,274 @@
+/* CS:GO Cart Page */
+.csgo-cart-container {
+  min-height: 70vh;
+  padding: 2rem 0;
+}
+
+/* Header */
+.cart-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(145deg, #1e2230, #1a1d29);
+  border: 2px solid #2d3142;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cart-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #f59e0b, #ff6b35, #f59e0b, transparent);
+}
+
+.cart-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #f59e0b;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cart-title i {
+  font-size: 2.5rem;
+  animation: cartIconBounce 2s ease-in-out infinite;
+}
+
+@keyframes cartIconBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Loading State */
+.loading-container {
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+.csgo-spinner {
+  width: 4rem;
+  height: 4rem;
+  border: 4px solid #2d3142;
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: #9ca3af;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Empty Cart */
+.empty-cart {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(145deg, #1e2230, #1a1d29);
+  border: 2px dashed #2d3142;
+  border-radius: 12px;
+}
+
+.empty-cart i {
+  font-size: 6rem;
+  color: #2d3142;
+  margin-bottom: 2rem;
+  animation: emptyCartFloat 3s ease-in-out infinite;
+}
+
+@keyframes emptyCartFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.empty-cart h3 {
+  color: #6b7280;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.empty-cart p {
+  color: #9ca3af;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.empty-cart .btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+}
+
+/* Summary Card */
+.summary-card {
+  background: linear-gradient(145deg, #1e2230, #1a1d29);
+  border: 2px solid #2d3142;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 100px;
+}
+
+.summary-header {
+  background: linear-gradient(135deg, #f59e0b, #ff6b35);
+  padding: 1.2rem;
+  border-bottom: 3px solid #ff6b35;
+}
+
+.summary-header h5 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.summary-header i {
+  font-size: 1.5rem;
+}
+
+.summary-body {
+  padding: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #2d3142;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+}
+
+.summary-row:last-of-type {
+  border-bottom: 2px solid #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.summary-label {
+  color: #9ca3af;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.summary-value {
+  color: #e5e7eb;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.summary-value.free {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.summary-total h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #e5e7eb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.summary-total .total-amount {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #f59e0b;
+  text-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.checkout-btn i {
+  font-size: 1.3rem;
+}
+
+.continue-shopping {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .summary-card {
+    position: static;
+    margin-top: 2rem;
+  }
+
+  .cart-title {
+    font-size: 2rem;
+  }
+
+  .cart-title i {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .cart-title {
+    font-size: 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .summary-total .total-amount {
+    font-size: 1.6rem;
+  }
+}

@@ -1,106 +1,183 @@
-
+/* CS:GO Product Card - Weapon Skin Style */
 .product-card {
-  transition: all 0.3s ease;
-  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 12px;
   overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(145deg, #1e2230 0%, #1a1d29 100%);
+  border: 2px solid #2d3142;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #f59e0b, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover::before {
+  opacity: 1;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px) scale(1.02);
+  border-color: #f59e0b;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.3);
 }
 
-
+/* Image Wrapper */
 .product-image-wrapper {
   position: relative;
   aspect-ratio: 1 / 1;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+  background: linear-gradient(135deg, #0f1117 0%, #1a1d29 100%);
   overflow: hidden;
+  border-bottom: 2px solid #2d3142;
+}
+
+.product-image-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(245, 158, 11, 0.03) 2px,
+      rgba(245, 158, 11, 0.03) 4px
+    );
+  pointer-events: none;
 }
 
 .product-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  filter: brightness(0.9) contrast(1.1);
 }
 
 .product-card:hover .product-img {
-  transform: scale(1.08);
+  transform: scale(1.15) rotate(2deg);
+  filter: brightness(1) contrast(1.2);
 }
 
-/* Overlay Sin Stock */
+/* Out of Stock Overlay */
 .stock-overlay-out {
-  background: rgba(17, 24, 39, 0.493);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 17, 23, 0.92);
+  backdrop-filter: blur(8px);
   z-index: 10;
+  border: 2px solid #dc2626;
+}
+
+.stock-overlay-out::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 2px;
+  background: #dc2626;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  box-shadow: 0 0 20px #dc2626;
 }
 
 .stock-icon-wrapper {
-  animation: fadeInScale 0.4s ease;
+  animation: fadeInScale 0.5s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.stock-icon-wrapper i {
+  color: #dc2626;
+  filter: drop-shadow(0 0 10px #dc2626);
 }
 
 @keyframes fadeInScale {
   from {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.5) rotate(-180deg);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
   }
 }
 
 .ls-1 {
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(220, 38, 38, 0.8);
 }
 
+/* Card Body */
 .card-body {
-  background: #ffffff;
+  background: linear-gradient(180deg, #1e2230 0%, #1a1d29 100%);
+  padding: 1.2rem !important;
 }
 
+/* Product Title */
 .product-title {
-  color: #1f2937;
-  font-size: 1.1rem;
+  color: #e5e7eb;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Category Badge */
+.product-category {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #000;
+  background: linear-gradient(135deg, #f59e0b, #ff6b35);
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.product-category i {
+  font-size: 0.85rem;
+  color: #000;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+/* Description */
+.product-description {
+  font-size: 0.85rem;
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 2.8rem;
+  min-height: 2.4rem;
+  color: #9ca3af;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
 }
 
-.product-category {
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #6366f1;
-  background: #eef2ff;
-  padding: 6px 12px;
-  border-radius: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.product-category i {
-  font-size: 0.9rem;
-  color: #818cf8;
-}
-
-.product-description {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  min-height: 2.7rem;
-  color: #6b7280;
-}
-
+/* Stock Indicators */
 .stock-indicator {
   min-height: 36px;
   display: flex;
@@ -110,84 +187,126 @@
 .stock-badge {
   display: inline-flex;
   align-items: center;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: 'Rajdhani', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  border: 2px solid;
 }
 
 .stock-out {
-  background: #f3f4f6;
+  background: rgba(107, 114, 128, 0.2);
   color: #6b7280;
-  border: 2px solid #e5e7eb;
+  border-color: #4b5563;
 }
 
 .stock-last {
-  background: #fff7ed;
-  color: #ea580c;
-  border: 2px solid #fed7aa;
-  animation: subtlePulse 2s ease-in-out infinite;
+  background: rgba(234, 88, 12, 0.2);
+  color: #ff6b35;
+  border-color: #ea580c;
+  animation: urgentPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(234, 88, 12, 0.3);
 }
 
-@keyframes subtlePulse {
+@keyframes urgentPulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(234, 88, 12, 0);
+    box-shadow: 0 0 20px rgba(234, 88, 12, 0.3);
+    transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.1);
+    box-shadow: 0 0 30px rgba(234, 88, 12, 0.6);
+    transform: scale(1.05);
   }
 }
 
 .stock-low {
-  background: #fefce8;
-  color: #ca8a04;
-  border: 2px solid #fde047;
+  background: rgba(202, 138, 4, 0.2);
+  color: #ffd60a;
+  border-color: #ca8a04;
+  box-shadow: 0 0 15px rgba(255, 214, 10, 0.2);
 }
 
 .stock-available {
-  background: #f0fdf4;
-  color: #16a34a;
-  border: 2px solid #bbf7d0;
+  background: rgba(16, 163, 74, 0.2);
+  color: #10b981;
+  border-color: #059669;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
 }
 
 .stock-badge i {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  filter: drop-shadow(0 0 4px currentColor);
 }
 
-
+/* Footer */
 .product-footer {
-  border-top: 2px solid #f3f4f6;
+  border-top: 2px solid #2d3142;
+  margin-top: auto;
 }
 
+/* Price Tag */
 .price-tag {
   display: flex;
   align-items: baseline;
-  color: #0f172a;
+  color: #f59e0b;
+  font-family: 'Orbitron', sans-serif;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 }
 
 .price-currency {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-right: 2px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-right: 3px;
 }
 
 .price-amount {
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 900;
   letter-spacing: -0.5px;
 }
 
+/* Rarity Glow Effect */
+.product-card.rarity-legendary {
+  border-color: #a855f7;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+}
+
+.product-card.rarity-epic {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.product-card.rarity-rare {
+  border-color: #10b981;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .card-body {
     padding: 1rem !important;
   }
   
   .product-title {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    min-height: 2.4rem;
   }
   
   .price-amount {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+  }
+
+  .product-category {
+    font-size: 0.7rem;
+    padding: 5px 10px;
+  }
+
+  .stock-badge {
+    font-size: 0.75rem;
+    padding: 6px 10px;
   }
 }
