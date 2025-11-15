@@ -37,6 +37,13 @@ export class HeaderComponent {
    return urlActual.includes('/cart')
   }
   );
+
+  esAgregarProducto = computed(() =>{ 
+    const urlActual = this.urlActual();
+    console.log("Current URL:", urlActual);  
+   return urlActual.includes('/agregar')
+  }
+  );
   
   // Exponer signals del estado
   user = this.authState.user;
