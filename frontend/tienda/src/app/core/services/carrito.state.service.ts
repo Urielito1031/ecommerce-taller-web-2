@@ -122,8 +122,8 @@ export class CarritoStateService {
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (dto) => this._carrito.set(dto),
-        error: (err) =>
-          this._error.set(err?.message ?? 'Error al cargar carrito'),
+        error: (err: HttpErrorResponse) =>
+          this._error.set(err.error.message ?? 'Error al cargar carrito'),
       });
   }
 

@@ -81,7 +81,7 @@ export class CarritoController {
     const carrito = await carritoService.obtenerCarritoPorUsuario(usuarioId);
 
     if (!carrito) {
-      res.status(404).json({ message: "Carrito no encontrado" });
+      res.status(404).json({ message: "Cargue productos para iniciar su carrito" });
       return;
     }
 

@@ -28,7 +28,8 @@
   }
 
   <!-- Empty Cart -->
-  @if (items().length === 0  || error()) {
+  <!-- @if (items().length === 0  || error()) { -->
+  @if (items().length === 0) {
     <div class="text-center py-5">
       <i class="bi bi-cart-x" style="font-size: 6rem; color: #dee2e6;"></i>
       <h3 class="mt-4 text-muted">Tu carrito está vacío</h3>
